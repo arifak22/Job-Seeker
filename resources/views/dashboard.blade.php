@@ -177,16 +177,16 @@
         <div class="nav-outer clearfix">
 
           <div class="outer-box">
-            <!-- Login/Register -->
-            {{-- <div class="login-box">
-              <a href="{{url('assets/login-popup.html')}}" class="call-modal"><span class="icon-user"></span></a>
-            </div> --}}
+            <div class="login-box">
+              <a href="{{url('home')}}" class="mobile-nav-toggler" style="transform: none;margin-left:0px;">
+                <span style="font-size: 10px;text-decoration: underline;text-underline-offset: 4px;" id="text-menu"> HOME </span>
+              </a>
+            </div>
+            <span style="font-size: 10px;font-weight:bold;margin:0 5px;">/</span>
 
-            <button id="toggle-user-sidebar">
-              {{-- <img src="{{url('assets/images/resource/company-6.png')}}" alt="avatar" class="thumb"> --}}
-              <img src="{{Auth::user()->foto ? Sideveloper::storageUrl(Auth::user()->foto) : url('assets/images/resource/company-2.png')}}"  alt="avatar" class="thumb">
-            </button>
-            <a href="#nav-mobile" class="mobile-nav-toggler navbar-trigger"><span class="flaticon-menu-1"></span></a>
+            <button id="toggle-user-sidebar" style="font-size: 10px;margin-left:0px;">
+              <span style="font-size: 10px;text-decoration: underline;text-underline-offset: 4px;" > MENU </span>
+              </button>
           </div>
         </div>
 

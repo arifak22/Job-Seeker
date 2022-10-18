@@ -230,4 +230,17 @@ class MenuController extends MiddleController
         $data['title']    = $this->title;
         return Sideveloper::load('template', 'blank', $data);
     }
+
+    public function getDashboard(){
+        $id_privilege = Auth::user()->id_privilege;
+        if($id_privilege == 1){
+            return redirect('pencari-kerja/home');
+        }else if($id_privilege == 2){
+            return redirect('perusahaan/home');
+        }else if($id_privilege == 3){
+            return redirect('admin/home');
+        }
+
+        return redirect('home');
+    }
 }
