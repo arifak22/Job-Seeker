@@ -58,5 +58,42 @@ class AdminController extends MiddleController
 
         return Sideveloper::load('dashboard', 'admin/kartukuningdetail', $data);
     }
+
+    public function getMasterBidang(){
+        $data['title'] = 'Master Bidang Usaha';
+        return Sideveloper::load('dashboard', 'admin/master/bidang', $data);
+    }
+
+    public function getMasterBahasa(){
+        $data['title'] = 'Master Bahasa';
+        $data['name']  = 'Bahasa';
+        $data['tipe']  = 1;
+        return Sideveloper::load('dashboard', 'admin/master/choice', $data);
+    }
+
+    public function getMasterKeahlian(){
+        $data['title'] = 'Master Keahlian';
+        $data['name']  = 'Keahlian';
+        $data['tipe']  = 2;
+        return Sideveloper::load('dashboard', 'admin/master/choice', $data);
+    }
+
+    public function getMasterDomisili(){
+        $data['title'] = 'Master Kecamatan';
+        return Sideveloper::load('dashboard', 'admin/master/domisili', $data);
+    }
+
+    public function getMasterKelurahan(){
+        $id              = $this->input('id');
+        $data['kecamatan'] = DB::table('districts')->where('regency_id', 2101)->where('id', $id)->first();
+        $data['title'] = 'Master Kelurahan';
+        return Sideveloper::load('dashboard', 'admin/master/kelurahan', $data);
+    }
+
+    public function getMasterAdmin(){
+        $data['title'] = 'Master Admin';
+        $data['privilege_option'] = $this->getOption('privilege');
+        return Sideveloper::load('dashboard', 'admin/master/admin', $data);
+    }
     
 }

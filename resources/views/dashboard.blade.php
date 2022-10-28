@@ -101,6 +101,14 @@
     border-radius: 50%;
     transition: all 300ms ease;
   }
+  .blinking {
+    animation: mymove 0.5s infinite alternate;
+}
+
+@keyframes mymove {
+    from {opacity:0;}
+    to {opacity: 1;}
+}
   </style>
 </head>
 
