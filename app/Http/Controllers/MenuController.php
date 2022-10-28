@@ -34,14 +34,9 @@ class MenuController extends MiddleController
 
     public function getLoker(){
         $data['title']    = $this->title;
-        $kecamatan = DB::table('districts')->where('regency_id', 2101)->get();
-        $data['kecamatan_option'] = Sideveloper::makeOption($kecamatan, 'id', 'name', true);
-
-        $keahlian = DB::table('choice')->where('id_tipe', 2)->get();
-        $data['keahlian_option'] = Sideveloper::makeOption($keahlian, 'id', 'nama', true);
-
-        $bahasa = DB::table('choice')->where('id_tipe', 1)->get();
-        $data['bahasa_option'] = Sideveloper::makeOption($bahasa, 'id', 'nama', true);
+        $data['kecamatan_option'] = $this->getOption('kecamatan', true);
+        $data['keahlian_option']  = $this->getOption('keahlian', true);
+        $data['bahasa_option']    = $this->getOption('bahasa', true);
 
         $data['jenis_pekerjaan'] = DB::table('jenis_pekerjaan')->get();
 
@@ -99,6 +94,8 @@ class MenuController extends MiddleController
         $data['title']    = $this->title;
         $data['data'] = DB::table('vloker')->where('id', $id)->first();
         $data['deskripsi'] = DB::table('loker_deskripsi')->where('id_loker', $id)->get();
+        $data['pelamar'] = DB::table('loker_pelamar')->where('id_loker', $id)->pluck('id_pelamar')->toArray();
+        // print_r($data['pelamar']);die();
 
         $data['keahlian']  = DB::table('vchoice_loker')->where('id_tipe',2)->where('id_loker', $id)->get();
         $data['bahasa']  = DB::table('vchoice_loker')->where('id_tipe',1)->where('id_loker', $id)->get();
@@ -110,8 +107,8 @@ class MenuController extends MiddleController
 
     public function getPerusahaan(){
         $data['title']    = $this->title;
-        $kecamatan = DB::table('districts')->where('regency_id', 2101)->get();
-        $data['kecamatan_option'] = Sideveloper::makeOption($kecamatan, 'id', 'name', true);
+        
+        $data['kecamatan_option'] = $this->getOption('kecamatan', true);
 
         $data['bidang'] = DB::table('bidang')->get();
 
@@ -152,14 +149,10 @@ class MenuController extends MiddleController
 
     public function getPencariKerja(){ 
         $data['title']    = $this->title;
-        $kecamatan = DB::table('districts')->where('regency_id', 2101)->get();
-        $data['kecamatan_option'] = Sideveloper::makeOption($kecamatan, 'id', 'name', true);
 
-        $keahlian = DB::table('choice')->where('id_tipe', 2)->get();
-        $data['keahlian_option'] = Sideveloper::makeOption($keahlian, 'id', 'nama', true);
-
-        $bahasa = DB::table('choice')->where('id_tipe', 1)->get();
-        $data['bahasa_option'] = Sideveloper::makeOption($bahasa, 'id', 'nama', true);
+        $data['kecamatan_option'] = $this->getOption('kecamatan', true);
+        $data['keahlian_option']  = $this->getOption('keahlian', true);
+        $data['bahasa_option']    = $this->getOption('bahasa', true);
 
         $data['pendidikan'] = DB::table('pendidikan')->get();
 

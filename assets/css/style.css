@@ -3037,6 +3037,30 @@ Contact Section
   text-align: center;
   transition: all 500ms ease;
 }
+.dashboard-option .dropdown-menu li button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  line-height: 30px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #696969;
+  text-align: left;
+  text-transform: capitalize;
+  border-radius: 8px;
+  transition: all 500ms ease;
+  width: 100%;
+}
+
+.dashboard-option .dropdown-menu li button i {
+  position: relative;
+  margin-right: 15px;
+  font-size: 22px;
+  color: #696969;
+  text-align: center;
+  transition: all 500ms ease;
+}
 
 .dashboard-option .dropdown-menu li.active a,
 .dashboard-option .dropdown-menu li:hover a {
@@ -3047,6 +3071,17 @@ Contact Section
 .dashboard-option .dropdown-menu li.active a i,
 .dashboard-option .dropdown-menu li:hover a i {
   color: #1967D2;
+}
+
+.dashboard-option .dropdown-menu li.active button,
+.dashboard-option .dropdown-menu li:hover button {
+  color: #d21919;
+  background: rgba(210, 25, 25, 0.1);
+}
+
+.dashboard-option .dropdown-menu li.active button i,
+.dashboard-option .dropdown-menu li:hover button i {
+  color: #d21919;
 }
 
 .mm-panels {
@@ -3839,6 +3874,31 @@ User Sidebar
   transition: all 500ms ease;
 }
 
+.user-sidebar .navigation li button {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 10px 30px;
+  line-height: 30px;
+  font-weight: 400;
+  font-size: 15px;
+  color: #696969;
+  text-align: left;
+  text-transform: capitalize;
+  border-radius: 8px;
+  transition: all 500ms ease;
+  width: 100%;
+}
+
+.user-sidebar .navigation li button i {
+  position: relative;
+  margin-right: 15px;
+  font-size: 22px;
+  color: #696969;
+  text-align: center;
+  transition: all 500ms ease;
+}
+
 .user-sidebar .navigation > li.active > a,
 .user-sidebar .navigation > li:hover > a {
   color: #1967D2;
@@ -3848,6 +3908,17 @@ User Sidebar
 .user-sidebar .navigation li.active a i,
 .user-sidebar .navigation li:hover a i {
   color: #1967D2;
+}
+
+.user-sidebar .navigation > li.active > button,
+.user-sidebar .navigation > li:hover > button {
+  color: #d21919;
+  background: rgba(210, 25, 25, 0.1);
+}
+
+.user-sidebar .navigation li.active button i,
+.user-sidebar .navigation li:hover button i {
+  color: #d21919;
 }
 
 .place.sky {
@@ -8947,7 +9018,8 @@ Preloader
   margin-top: -25px;
   background-position: center center;
   background-repeat: no-repeat;
-  background-image: url(../images/favicon.png);
+  background-image: url(../master/images/icon.png);
+  background-size: 50px 50px;
   content: "";
 }
 

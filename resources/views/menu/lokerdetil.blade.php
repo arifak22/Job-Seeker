@@ -25,7 +25,11 @@
             <div class="btn-box">
               @auth
                 @if(Auth::user()->id_privilege == 1)
-                <button type="button" onclick="lamar()" class="theme-btn btn-style-one">Lamar Pekerjaan</button>
+                  @if(in_array(Auth::user()->id, $pelamar))
+                    <button type="button" class="theme-btn btn-style-four"><i class="la la-check"></i> &nbsp; &nbsp;Applied</button>
+                  @else
+                    <span id="lamar-button"><button type="button" onclick="lamar()" class="theme-btn btn-style-one">Lamar Pekerjaan</button></span>
+                  @endif
                 @endif
               @endauth
               {{-- <button class="bookmark-btn"><i class="flaticon-bookmark"></i></button> --}}
@@ -246,7 +250,7 @@
                     apiRespone(res,
 						null,
 						() => {
-              tableList.ajax.reload();
+              $("#lamar-button").html(` <button type="button" class="theme-btn btn-style-four"><i class="la la-check"></i> &nbsp; &nbsp;Applied</button>`);
 						}
 					);
                 })

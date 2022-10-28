@@ -27,7 +27,8 @@ class PerusahaanController extends MiddleController
         $alamat        = $this->input('alamat', 'required|max:2000');
         $tahun_berdiri = $this->input('tahun_berdiri', 'required|date_format:Y');
         $website       = $this->input('website', 'required|max:200');
-        $total_pegawai = $this->input('total_pegawai', 'required|max:100');
+        $pegawai_lokal = $this->input('pegawai_lokal', 'required|min:0|numeric');
+        $pegawai_asing = $this->input('pegawai_asing', 'required|min:0|numeric');
        
         #CEK VALID
         if($this->validator()){
@@ -60,7 +61,9 @@ class PerusahaanController extends MiddleController
             $updateProfil['id_kelurahan']  = $id_kelurahan;
             $updateProfil['deskripsi']     = $deskripsi;
             $updateProfil['alamat']        = $alamat;
-            $updateProfil['total_pegawai'] = $total_pegawai;
+            $updateProfil['pegawai_lokal'] = $pegawai_lokal;
+            $updateProfil['pegawai_asing'] = $pegawai_asing;
+            $updateProfil['total_pegawai'] = $pegawai_asing + $pegawai_lokal;
             DB::table('profil_perusahaan')->where('id_user', $id_user)->update($updateProfil);
 
             #BERHASIL

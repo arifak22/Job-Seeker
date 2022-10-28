@@ -46,6 +46,9 @@
   <script src="{{url('assets/master/js/script.js')}}"></script>
 
   <style>
+    .tox-notifications-container{
+      display: none;
+    }
     .modal{
       max-width: 1000px;
     }
@@ -162,7 +165,7 @@
                 @foreach($menus as $key => $mn)
                   <li><a href="{{url($mn->link)}}"><i class="{{$mn->ikon}}"></i>{{$mn->nama}}</a></li>
                 @endforeach
-                <li><a href="{{url('auth/logout')}}"><i class="la la-sign-out"></i>Logout</a></li>
+                <li><button type="button" onclick="logout()"><i class="la la-sign-out"></i>Logout</button></li>
               </ul>
             </div>
           </div>
@@ -208,7 +211,7 @@
           @foreach($menus as $key => $mn)
           <li><a href="{{url($mn->link)}}"><i class="{{$mn->ikon}}"></i>{{$mn->nama}}</a></li>
           @endforeach
-          <li><button type="button" onclick="logout()"><i class="la la-sign-out"></i>Logout</a></li>
+          <li><button type="button" onclick="logout()"><i class="la la-sign-out"></i>Logout</button></li>
         </ul>
       </div>
     </div>
@@ -244,12 +247,12 @@
   <script>
     $(document).ready(function(){
       $("#table_id_filter").hide();
+      $(".tox-notifications-container").hide();
     })
 
     function logout(){
-      // localStorage.setItem("jwt_token", res.jwt_token);
       localStorage.removeItem('jwt_token');
-      window.open("{{url('auth/logout')}}");
+      window.location = "{{url('auth/logout')}}";
     }
   </script>
 </body>

@@ -23,7 +23,8 @@
                         <div class="col-lg-6 col-md-12">
                             {!!Sideveloper::formSelect('Tahun Berdiri', $tahun_option, 'tahun_berdiri', $data->tahun_berdiri)!!}
                             {!!Sideveloper::formInput('Website','text','website', $data->website)!!}
-                            {!!Sideveloper::formInput('Total Pegawai','text','total_pegawai', $data->total_pegawai)!!}
+                            {!!Sideveloper::formInput('Pegawai Lokal','number','pegawai_lokal', $data->pegawai_lokal)!!}
+                            {!!Sideveloper::formInput('Pegawai Asing','number','pegawai_asing', $data->pegawai_asing)!!}
                         </div>
                         <div class="col-lg-12 col-md-12">
                             {!!Sideveloper::formText('Deskripsi','deskripsi',$data->deskripsi, "class='freetext'")!!}
@@ -115,9 +116,13 @@
                         required: true,
                         maxlength: 200,
                     },
-                    total_pegawai: {
+                    pegawai_lokal: {
                         required: true,
-                        maxlength: 100,
+                        min     : 0,
+                    },
+                    pegawai_asing: {
+                        required: true,
+                        min     : 0,
                     },
                     deskripsi: {
                         required: true,

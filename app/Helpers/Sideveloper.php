@@ -346,7 +346,7 @@
 		}
 
 		#INPUT
-		public static function formFile($label, $name, $add='', $msg ='', $file = ''){
+		public static function formFile($label, $name, $add='', $msg ='', $file = '', $show_upload = true){
 			$file_image = url("assets/master/images/attached-file.png");
 			if(@is_array(getimagesize(Sideveloper::storageUrl($file)))){
 				$file_image = Sideveloper::storageUrl($file);
@@ -354,6 +354,14 @@
 			$show_file ="";
 			if($file){
 				$show_file ="<a target=\"_blank\" href=\"".Sideveloper::storageUrl($file)."\"><img style=\"height: 120px;margin-right:10px;\" src=\"".$file_image."\"></a>";
+			}
+			if(!$show_upload){
+				return "<div style=\"border-bottom: 1px solid #f1f3f7;margin-bottom:15px;padding-bottom:15px;\">
+				<label class=\"row\">$label</label>
+				$show_file
+				</div>
+				<hr>
+				";
 			}
 			return"
 			<div class=\"uploading-outer\" id=\"form-$name\">

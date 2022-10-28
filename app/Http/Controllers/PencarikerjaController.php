@@ -40,8 +40,17 @@ class PencarikerjaController extends MiddleController
 
     public function getProfil(){
         #CONTROLLER WITH WEB SERVICE
-        $http = $this->httpSelf('GET', url('api/pencari-kerja/profil'));
-        $data = (array)$http->data;
+        // $http = $this->httpSelf('GET', url('api/pencari-kerja/profil'));
+        // $data = (array)$http->data;
+        $data['data']   = DB::table('vprofil_pencari_kerja')->where('id_user', Auth::user()->id)->first();
+
+        $data['bahasa'] = DB::table('vchoice_pencari_kerja')->where('id_tipe','1')->where('id_user', Auth::user()->id)->pluck('nama_choice')->implode(', ');
+        $data['skill']  = DB::table('vchoice_pencari_kerja')->where('id_tipe','2')->where('id_user', Auth::user()->id)->get();
+
+        $data['pendidikan']  = DB::table('vchoice_pencari_kerja_big')->orderBy('tgl_end', 'desc')->where('id_tipe',1)->where('id_user', Auth::user()->id)->get();
+        $data['pengalaman']  = DB::table('vchoice_pencari_kerja_big')->orderBy('tgl_end', 'desc')->where('id_tipe',2)->where('id_user', Auth::user()->id)->get();
+        $data['sertifikasi'] = DB::table('vchoice_pencari_kerja_big')->orderBy('tgl_end', 'desc')->where('id_tipe',3)->where('id_user', Auth::user()->id)->get();
+
         return Sideveloper::load('dashboard', 'pencarikerja/profil', $data);
     }
 
@@ -99,7 +108,7 @@ class PencarikerjaController extends MiddleController
 
     public function getKartuKuning(){
         $data['title']    = $this->title;
-        $data['data']     = DB::table('kartu_kuning')->where('id_user', Auth::user()->id)->first();
+        $data['data']     = DB::table('kartu_kuning')->select('kartu_kuning.*','users.nama')->join('users','users.id','=','kartu_kuning.id_user')->where('id_user', Auth::user()->id)->first();
         return Sideveloper::load('dashboard', 'pencarikerja/kartukuning', $data);
     }
 

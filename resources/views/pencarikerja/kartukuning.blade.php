@@ -15,6 +15,64 @@
                 <h4>Kartu Kuning</h4>
                 </div>
                 <div class="widget-content">
+                @if($data->verified_status=='DONE')
+                <div class="table-outer">
+                    <table class="default-table manage-job-table">
+                        <thead>
+                            <tr>
+                                <th>Judul</th>
+                                <th>File</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td style="vertical-align:top">
+                                    <b>Nama : {{$data->nama}}</b>
+                                </td>
+                                <td>
+                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->pas_foto)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->pas_foto)}}"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top">
+                                    <b>Nomor NIK : {{$data->nik}}</b>
+                                </td>
+                                <td>
+                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_ktp)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_ktp)}}"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top">
+                                    <b>Nomor KK : {{$data->no_kk}}</b>
+                                </td>
+                                <td>
+                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_kk)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_kk)}}"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top">
+                                    <b>Nomor Ijazah : {{$data->no_ijazah}}</b>
+                                    <br>Tanggal : {{$data->tgl_ijazah}}
+                                </td>
+                                <td>
+                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_ijazah)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_ijazah)}}"></a>
+                                </td>
+                            </tr>
+                            @if($data->verified_status == 'DONE')
+                                <tr>
+                                    <td style="vertical-align:top">
+                                        <b>KARTU KUNING</b>
+                                    </td>
+                                    <td>
+                                        <a target="_blank" href="{{Sideveloper::storageUrl($data->file_kartu_kuning)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_kartu_kuning)}}"></a>
+                                    </td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+                @else
                 <form class="default-form">
                     <h5>Lampiran</h5><br>
                     {!!Sideveloper::formFile('Pas Foto', 'foto', "accept=\"image/*\"", "Maksimal 200kb, Upload Pas Foto 3x4. (Image: png / jpg)", $data->pas_foto)!!}
@@ -76,6 +134,7 @@
                     @endif
                     </div>
                 </form>
+                @endif
                 </div>
             </div>
             </div>
@@ -85,65 +144,146 @@
 </section>
 <!-- End Dashboard -->
      
-      <script>
-        
-        jQuery.datetimepicker.setLocale('id');
-        $('#tgl_ijazah').datetimepicker({
-            timepicker:false,
-            format:'Y-m-d'
-        });
-        $('#submit').click(function(e) {
-            e.preventDefault();
-            var btn = $(this);
-            var form = $(this).closest('form');
-            form.validate({
-                rules: {
-                    no_ijazah: {
-                        required : true,
-                        maxlength: 100,
-                    },
-                    nik: {
-                        required : true,
-                        maxlength: 100,
-                    },
-                    no_kk: {
-                        required : true,
-                        maxlength: 100,
-                    },
-                    tgl_ijazah: {
-                        required: true,
-                        maxlength: 10,
-                        minlength: 10,
-                    },
+<script>
+
+jQuery.datetimepicker.setLocale('id');
+$('#tgl_ijazah').datetimepicker({
+    timepicker:false,
+    format:'Y-m-d'
+});
+$('#submit').click(function(e) {
+    e.preventDefault();
+    var btn = $(this);
+    var form = $(this).closest('form');
+    form.validate({
+        rules: {
+            no_ijazah: {
+                required : true,
+                maxlength: 100,
+            },
+            nik: {
+                required : true,
+                maxlength: 100,
+            },
+            no_kk: {
+                required : true,
+                maxlength: 100,
+            },
+            tgl_ijazah: {
+                required: true,
+                maxlength: 10,
+                minlength: 10,
+            },
+        }
+    });
+    if (!form.valid()) {
+        return;
+    }
+    apiLoading(true, btn);
+    form.ajaxSubmit({
+        url    : "{{url('api/pencari-kerja/kartu-kuning-pengajuan')}}",
+        type   : 'POST',
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem('jwt_token')
+        },
+        success: function(response) {
+            apiLoading(false, btn);
+            apiRespone(
+                response,
+                false,
+                (res) => {
+                    if(res.api_status == '1'){
+                        $(location).prop('href', "{{url('pencari-kerja/kartu-kuning')}}")
+                    }
                 }
-            });
-            if (!form.valid()) {
-                return;
+            );
+            console.log(response)
+        },
+        error: function(error){
+            apiLoading(false, btn);
+            swal(error.statusText);
+        }
+    });
+});
+
+var tableList = $('#table_id').DataTable({
+    processing   : true,
+    serverSide   : true,
+    bLengthChange: false,
+    bFilter      : true,
+    pageLength   : 50,
+    // order        : [[2,'desc']],
+    ajax         : {
+        url  : "{{url('api/pencari-kerja/kartu-kuning-list')}}",
+        type : "get",   
+        headers: {
+            "Authorization": "Bearer " + localStorage.getItem('jwt_token')
+        },
+        error: function(){ 
+            $(".employee-grid-error").html("");
+            $("#data-list").append('<tbody class="employee-grid-error"><tr><th colspan="3"><center>Internal Server Error</center></th></tr></tbody>');
+            $("#data-list_processing").css("display","none");
+        }
+    },
+    columns : [
+        { "data" : "id", "name" : "kartu_kuning.id" },
+        { "data" : "status_text", "name" : "kartu_kuning.verified_status"},
+        { "data" : "nik", "name" : "kartu_kuning.nik"},
+        { "data" : "nama", "name" : "users.nama" },
+    ],
+    initComplete: function () {
+        this.api().columns().every(function () {
+            var column = this;
+            if(column[0] != 0){
+                var input = '<input class="form-control">';
+                if(column[0] == 1){
+                    input = `<select class="form-control">
+                                <option value=""> -Semua- </option>
+                                <option value="TOLAK"> Ditolak </option>
+                                <option value="KIRIM"> Pengajuan </option>
+                                <option value="DONE"> Selesai </option>
+                                <option value="RECIVED"> Dokumen Asli Diterima </option>
+                                <option value="APPROVED_ONLINE"> Dokumen Online Terverfikasi </option>
+                                <option value="KIRIM"> Pengajuan </option>
+                            </select>
+                            `;
+                    input = '';
+                }
+                // console.log(column[0]);
+                $(input).appendTo($(column.footer()).empty())
+                .on('change', function () {
+                    column.search($(this).val(), false, false, true).draw();
+                });
             }
-            apiLoading(true, btn);
-            form.ajaxSubmit({
-                url    : "{{url('api/pencari-kerja/kartu-kuning-pengajuan')}}",
-                type   : 'POST',
-                headers: {
-                    "Authorization": "Bearer " + localStorage.getItem('jwt_token')
-                },
-                success: function(response) {
-                    apiLoading(false, btn);
-                    apiRespone(
-                        response,
-                        false,
-                        (res) => {
-                            if(res.api_status == '1'){
-                                $(location).prop('href', "{{url('pencari-kerja/kartu-kuning')}}")
-                            }
-                        }
-                    );
-                    console.log(response)
-                },
-                error: function(error){
-                    apiLoading(false, btn);
-                    swal(error.statusText);
-                }
-            });
         });
-      </script>
+    },
+    // createdRow: function( row, data, dataIndex){
+    //     if( data.status ==  `N`){
+    //         $(row).addClass('redClass');
+    //     }
+    //     console.log(data);
+    // },
+    columnDefs: [
+        {
+            targets : 0,
+            orderable: false, 
+            data: "id",
+            render: function ( data, type, row, meta ) {
+                return `<div class="option-box">
+                            <ul class="option-list">
+                            <li><button data-text="Detail" onclick="lihat(${data}, '${row.verified_status}')"><span class="la la-eye"></span></button></li>
+                            </ul>
+                        </div>`;
+            }
+        },
+        {
+            targets : 1,
+            orderable: false, 
+            data: "status_text",
+            render: function ( data, type, row, meta ) {
+                return `<span style="color:${row.status_color};background:${row.status_color}33; padding:5px 20px;border-radius:50px;">${data}</span>`;
+            }
+        },
+],
+});
+</script>

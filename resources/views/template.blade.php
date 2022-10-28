@@ -106,7 +106,7 @@
                   <li><a href="{{url($mn->link)}}"><i class="{{$mn->ikon}}"></i>{{$mn->nama}}</a></li>
                 @endforeach
                 {{-- <li><a href="{{url('auth/logout')}}"><i class="la la-sign-out"></i>Logout</a></li> --}}
-                <li><button type="button" onclick="logout()"><i class="la la-sign-out"></i>Logout</a></li>
+                <li><button type="button" onclick="logout()"><i class="la la-sign-out"></i>Logout</button></li>
               </ul>
             </div>
           <?php else: ?>
@@ -268,9 +268,8 @@
   <script src="{{url('assets/js/script.js')}}"></script>
 <script>
   function logout(){
-      // localStorage.setItem("jwt_token", res.jwt_token);
       localStorage.removeItem('jwt_token');
-      window.open("{{url('auth/logout')}}");
+      window.location =  "{{url('auth/logout')}}";
     }
     var menu = true;
     function clickNav(){

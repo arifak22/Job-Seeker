@@ -164,6 +164,54 @@ class MiddleController extends Controller
         return $data;
     }
 
+    public function getOption($search = null, $all = null, $id = null, $auth = null){
+        switch ($search) {
+            case 'kelurahaan':
+                $pk    = 'id';
+                $fk    = 'district_id';
+                $field = 'name';
+                $table = DB::table('villages')
+                    ->select('villages.id','villages.name')
+                    ->join('districts','districts.id','=','villages.district_id')
+                    ->where('regency_id', 2101);
+                break;
+
+            case 'kecamatan':
+                $pk    = 'id';
+                $fk    = 'regency_id';
+                $field = 'name';
+                $table = DB::table('districts')->select('id','name')->where('regency_id', 2101);
+                break;
+
+            case 'keahlian':
+                $pk    = 'id';
+                $fk    = 'id';
+                $field = 'nama';
+                $table = DB::table('choice')->select('id','nama')->where('id_tipe', 2);
+                break;
+                
+            case 'bahasa':
+                $pk    = 'id';
+                $fk    = 'id';
+                $field = 'nama';
+                $table = DB::table('choice')->select('id','nama')->where('id_tipe', 1);
+                break;
+                    
+            default:
+                # code...
+                break;
+        }
+        $all   = $all ? true : false;
+
+        if($id){
+            $table->where($fk, $id);
+        }
+        $data = $table->get();
+        $option = Sideveloper::makeOption($data, $pk, $field, $all);
+        return $option;
+        // return app('App\Http\Controllers\OptionController')->getIndex($search, $all, $id);
+    }
+
     public function api_output($respone)
     {
         return response()->json($respone);
