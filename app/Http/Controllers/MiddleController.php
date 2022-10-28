@@ -164,7 +164,7 @@ class MiddleController extends Controller
         return $data;
     }
 
-    public function getOption($search = null, $all = null, $id = null, $auth = null){
+    public function getOption($search, $all = false, $id = null, $auth = null){
         switch ($search) {
             case 'kelurahaan':
                 $pk    = 'id';
@@ -196,7 +196,13 @@ class MiddleController extends Controller
                 $field = 'nama';
                 $table = DB::table('choice')->select('id','nama')->where('id_tipe', 1);
                 break;
-                    
+               
+            case 'privilege':
+                $pk    = 'id_privilege';
+                $fk    = 'id_privilege';
+                $field = 'nama_privilege';
+                $table = DB::table('privileges')->select('id_privilege','nama_privilege');
+                break;
             default:
                 # code...
                 break;

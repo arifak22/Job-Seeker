@@ -116,12 +116,6 @@
                 }
             });
         },
-        // createdRow: function( row, data, dataIndex){
-        //     if( data.status ==  `N`){
-        //         $(row).addClass('redClass');
-        //     }
-        //     console.log(data);
-        // },
         columnDefs: [
             {
                 targets : 0,
