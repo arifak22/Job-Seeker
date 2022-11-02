@@ -2,7 +2,7 @@
  <section class="user-dashboard">
     <div class="dashboard-outer">
       <div class="upper-title-box">
-        <h3>Kartu Kuning</h3>
+        <h3>KARTU AK.1 (Kartu Kuning)</h3>
       </div>
 
       <div class="row">

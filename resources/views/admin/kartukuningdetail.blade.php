@@ -2,7 +2,7 @@
 <section class="user-dashboard">
     <div class="dashboard-outer">
         <div class="upper-title-box">
-            <h3>Verifikasi Kartu Kuning</h3>
+            <h3>Verifikasi KARTU AK.1 (Kartu Kuning)</h3>
         </div>
 
         <div class="row">
@@ -19,7 +19,7 @@
                                 {!!Sideveloper::formHidden('id', $data->id)!!}
                                 {!!Sideveloper::formSelect('Status Pengajuan', array(array('value'=>'TOLAK', 'name'=>'Tolak Pengajuan'), array('value'=>'KIRIM', 'name'=>'Pengajuan'), array('value'=>'APPROVED_ONLINE', 'name'=> 'Dokumen Online Terverifikasi'), array('value'=>'RECIVED', 'name'=> 'Dokumen Asli Diterima'), array('value'=>'DONE', 'name'=> 'Selesai')), 'verified_status', $data->verified_status)!!}
                                 {!!Sideveloper::formText('Alasan Tolak','verified_catatan',$data->verified_catatan)!!}
-                                {!!Sideveloper::formFile('Kartu Kuning', 'file_kartu_kuning', "accept=\"image/*\"", "Maksimal 200kb, Upload Kartu Kuning. (Image: png / jpg)", $data->file_kartu_kuning)!!}
+                                {!!Sideveloper::formFile('KARTU AK.1 (Kartu Kuning)', 'file_kartu_kuning', "accept=\"image/*\"", "Maksimal 200kb, Upload KARTU AK.1 (Kartu Kuning). (Image: png / jpg)", $data->file_kartu_kuning)!!}
                                 <button class="theme-btn btn-style-one" type="submit" id="submit" style="margin-bottom:30px">Simpan</button>
                                 @endif
                                 <div class="table-outer">
@@ -68,7 +68,7 @@
                                             @if($data->verified_status == 'DONE')
                                                 <tr>
                                                     <td style="vertical-align:top">
-                                                        <b>KARTU KUNING</b>
+                                                        <b>KARTU AK.1 (Kartu Kuning)</b>
                                                     </td>
                                                     <td>
                                                         <a target="_blank" href="{{Sideveloper::storageUrl($data->file_kartu_kuning)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_kartu_kuning)}}"></a>

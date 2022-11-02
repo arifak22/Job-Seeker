@@ -12,7 +12,7 @@
             <div class="ls-widget">
             <div class="tabs-box">
                 <div class="widget-title">
-                <h4>Kartu Kuning</h4>
+                <h4>KARTU AK.1 (Kartu Kuning)</h4>
                 </div>
                 <div class="widget-content">
                 @if($data->verified_status=='DONE')
@@ -62,7 +62,7 @@
                             @if($data->verified_status == 'DONE')
                                 <tr>
                                     <td style="vertical-align:top">
-                                        <b>KARTU KUNING</b>
+                                        <b>KARTU AK.1 (Kartu Kuning)</b>
                                     </td>
                                     <td>
                                         <a target="_blank" href="{{Sideveloper::storageUrl($data->file_kartu_kuning)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_kartu_kuning)}}"></a>
@@ -80,7 +80,7 @@
                     {!!Sideveloper::formFile('KTP', 'ktp', "accept=\"image/*\"", "Maksimal 200kb, Upload KTP. (Image: png / jpg)", $data->file_ktp)!!}
                     {!!Sideveloper::formFile('Kartu Keluarga', 'kk', "accept=\"image/*\"", "Maksimal 200kb, Upload KK. (Image: png / jpg)", $data->file_kk)!!}
                     @if($data->verified_status=='DONE')
-                    {!!Sideveloper::formFile('Kartu Kuning', 'Kartu Kuning', "accept=\"image/*\"", "Maksimal 200kb, Upload Kartu Kuning. (Image: png / jpg)", $data->file_kartu_kuning)!!}
+                    {!!Sideveloper::formFile('KARTU AK.1 (Kartu Kuning)', 'KARTU AK.1 (Kartu Kuning)', "accept=\"image/*\"", "Maksimal 200kb, Upload Kartu Kuning. (Image: png / jpg)", $data->file_kartu_kuning)!!}
                     @endif
                     <div class="row">
                     <div class="col-lg-6 col-md-12">
@@ -97,10 +97,10 @@
                     $passStatus = ['DRAFT', 'KIRIM', 'TOLAK'];
                     ?>
                     @if(in_array($data->verified_status,$passStatus))
-                    {!!Sideveloper::formSelect('Ajukan Kartu Kuning', array(array('value'=>'DRAFT', 'name'=>'Draft'), array('value'=>'KIRIM', 'name'=> 'Kirim Pengajuan')), 'verified_status', $data->verified_status)!!}
+                    {!!Sideveloper::formSelect('Ajukan KARTU AK.1 (Kartu Kuning)', array(array('value'=>'DRAFT', 'name'=>'Draft'), array('value'=>'KIRIM', 'name'=> 'Kirim Pengajuan')), 'verified_status', $data->verified_status)!!}
                     @endif
                     @if($data->verified_status != 'TOLAK')
-                    <h4>Langkah - langkah Pengajuan Kartu Kuning</h4>
+                    <h4>Langkah - langkah Pengajuan KARTU AK.1 (Kartu Kuning)</h4>
                     @endif
                     <ul class="list-style-four" style="margin-top: 10px;">
                         <?php
