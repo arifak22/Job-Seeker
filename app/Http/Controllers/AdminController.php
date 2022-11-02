@@ -33,8 +33,12 @@ class AdminController extends MiddleController
         return redirect('admin/home');
     }
     public function getHome(){
-        $data['title']    = $this->title;
-        return Sideveloper::load('dashboard', 'pencarikerja/index', $data);
+        $data['title']         = $this->title;
+        $data['loker']         = DB::table('loker')->where('status_loker', 'POST')->count();
+        $data['lamaran']       = DB::table('loker_pelamar')->count();
+        $data['perusahaan']    = DB::table('users')->where('id_privilege', 2)->count();
+        $data['pencari_kerja'] = DB::table('users')->where('id_privilege', 1)->count();
+        return Sideveloper::load('dashboard', 'admin/index', $data);
     }
 
     public function getKartuKuningVerifikasi(){
