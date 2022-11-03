@@ -32,11 +32,14 @@
                         <option>Last 5 year</option>
                       </select>
                     </div> --}}
+                    <a href="{{url('perusahaan/loker-applicant?tipe=excel&id='.$_GET['id'])}}" class="theme-btn btn-style-one" style="padding:12px"> <i class="la la-file-excel"></i> Download Excel</a>
+
                   </div>
   
                   <div class="widget-content">
   
                     <div class="tabs-box">
+
                       <div class="aplicants-upper-bar">
                         <h6>{{$judul}}</h6>
                         <ul class="aplicantion-status tab-buttons clearfix">

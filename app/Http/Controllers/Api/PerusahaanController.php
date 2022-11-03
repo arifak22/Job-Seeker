@@ -231,16 +231,24 @@ class PerusahaanController extends MiddleController
     }
 
     public function getLokerKelola(){
-        $datatable       = $this->input('draw') ?  true : false;
-        $search          = $this->input('search');
+        $datatable    = $this->input('draw') ?  true : false;
+        $search       = $this->input('search');
         $status_loker = $this->input('status_loker');
+        $perusahaan   = $this->input('perusahaan');
         $query = DB::table('vloker')
             ->select('id', 'judul', 'status_loker', 'status_color', 'jumlah_pelamar', 'tanggal_dibuat', 'tanggal_kadaluarsa', 'kecamatan', 'kelurahan')
-            ->where('id_user', JWTAuth::user()->id)
+            // ->where('id_user', JWTAuth::user()->id)
             ->orderBy('status_loker', 'desc');
 
         if($status_loker)
             $query->where('status_loker', $status_loker);
+
+        if($perusahaan){
+            $query->where('status_loker', 'POST');
+            $query->where('id_user', $perusahaan);
+        }else{
+            $query->where('id_user', JWTAuth::user()->id);
+        }
             
         if($datatable):
             return datatables()->of($query)->toJson();

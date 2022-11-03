@@ -99,5 +99,12 @@ class AdminController extends MiddleController
         $data['privilege_option'] = $this->getOption('privilege');
         return Sideveloper::load('dashboard', 'admin/master/admin', $data);
     }
+
+    public function getLoker(){
+        $data['title']      = 'Lowongan Kerja';
+        $data['tipe']       = 'admin';
+        $data['perusahaan'] = DB::table('users')->where('id_privilege', '2')->get();
+        return Sideveloper::load('dashboard', 'perusahaan/lokerkelola', $data);
+    }
     
 }

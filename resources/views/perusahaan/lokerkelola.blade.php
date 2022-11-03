@@ -15,11 +15,19 @@
 
                 <div class="chosen-outer">
                   <!--Tabs Box-->
+                  @if($tipe == 'admin')
+                  <select class="chosen-select" name="perusahaan" id="perusahaan">
+                    @foreach($perusahaan as $p)
+                    <option value="{{$p->id}}"> {{$p->nama}} </option>
+                    @endforeach
+                  </select>
+                  @else
                   <select class="chosen-select" name="status_loker" id="status_loker">
                     <option value="">-- Semua --</option>
                     <option value="DRAFT">DRAFT</option>
                     <option value="POST">POSTING</option>
                   </select>
+                  @endif
                 </div>
               </div>
 
@@ -74,7 +82,8 @@
                 "Authorization": "Bearer " + localStorage.getItem('jwt_token')
             },
             data: function(d) {
-                d.verified_status  = $("#verified_status").val();
+                d.status_loker = $("#status_loker").val();
+                d.perusahaan   = $("#perusahaan").val();
             },
             error: function(){ 
                 $(".employee-grid-error").html("");
@@ -126,6 +135,7 @@
                 targets : 0,
                 orderable: false, 
                 data: "id",
+                visible: <?php if($tipe == 'admin') echo 'false'; else echo 'true';?>,
                 render: function ( data, type, row, meta ) {
                     return `<div class="option-box">
                               <ul class="option-list">
@@ -171,7 +181,7 @@
             },
         ],
     });
-    $("#loker_status").change(function(){
+    $("#status_loker").change(function(){
       tableList.ajax.reload();
     });
     function lihat(id){
