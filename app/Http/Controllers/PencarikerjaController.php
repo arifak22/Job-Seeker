@@ -35,6 +35,7 @@ class PencarikerjaController extends MiddleController
     
     public function getHome(){
         $data['title']    = $this->title;
+        $data['lamaran']       = DB::table('loker_pelamar')->where('id_pelamar', Auth::user()->id)->count();
         return Sideveloper::load('dashboard', 'pencarikerja/index', $data);
     }
 

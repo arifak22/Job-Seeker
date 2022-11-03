@@ -300,15 +300,15 @@ class PencarikerjaController extends MiddleController
         if(!$foto['is_uploaded']){
             return $this->api_output($foto['msg']);
         }
-        $ijazah = $this->uploadFile('ijazah', 'pencarikerja/'.$id_user, 'ijazah-'.Str::random(5), $config);
+        $ijazah = $this->uploadFile('ijazah', 'pencarikerja/'.$id_user, 'ijazah-'.Str::random(5), $config); #hapus ganti CV
         if(!$ijazah['is_uploaded']){
             return $this->api_output($ijazah['msg']);
         }
-        $ktp = $this->uploadFile('ktp', 'pencarikerja/'.$id_user, 'ktp-'.Str::random(5), $config);
+        $ktp = $this->uploadFile('ktp', 'pencarikerja/'.$id_user, 'ktp-'.Str::random(5), $config); 
         if(!$ktp['is_uploaded']){
             return $this->api_output($ktp['msg']);
         }
-        $kk = $this->uploadFile('kk', 'pencarikerja/'.$id_user, 'kk-'.Str::random(5), $config);
+        $kk = $this->uploadFile('kk', 'pencarikerja/'.$id_user, 'kk-'.Str::random(5), $config); #HAPUS, GANTI DATA LAIN-LAIN
         if(!$kk['is_uploaded']){
             return $this->api_output($kk['msg']);
         }
@@ -382,6 +382,14 @@ class PencarikerjaController extends MiddleController
             $res['api_message'] = 'Maaf, anda sudah mengajukan lamaran kerja ini';
             return $this->api_output($res);
         }
+
+        $status_kartu_kuning = DB::table('kartu_kuning')->where('id_user', $id_user)->where('verified_status', 'DONE')->count();
+        if($status_kartu_kuning == 0){
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Maaf, Selesaikan Proses KARTU AK.1 (Kartu Kuning)';
+            return $this->api_output($res);
+        }
+        
         #Start Transaksi
         DB::beginTransaction();
         try{

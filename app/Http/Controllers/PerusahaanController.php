@@ -34,6 +34,8 @@ class PerusahaanController extends MiddleController
     }
     public function getHome(){
         $data['title']    = $this->title;
+        $data['loker']         = DB::table('loker')->where('id_user', Auth::user()->id)->where('status_loker', 'POST')->count();
+        $data['lamaran']       = DB::table('loker_pelamar')->join('loker', 'loker.id','=', 'loker_pelamar.id_loker')->where('id_user', Auth::user()->id)->count();
         return Sideveloper::load('dashboard', 'perusahaan/index', $data);
     }
     public function getProfil(){
