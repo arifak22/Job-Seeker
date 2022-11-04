@@ -173,4 +173,9 @@ class PerusahaanController extends MiddleController
 
         return Sideveloper::load('dashboard', 'perusahaan/lokerapplicant', $data);
     }
+
+    public function getKaryawan(){
+        $data['title'] = 'Karyawan';
+        return Sideveloper::load('dashboard', 'perusahaan/karyawan', $data);
+    }
 }

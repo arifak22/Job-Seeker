@@ -319,4 +319,146 @@ class PerusahaanController extends MiddleController
 
     }
     /* ========= LOKER END =========== */
+
+    #---------- KARYAWAN -----------#
+    public function getKaryawan(){
+        $datatable       = $this->input('draw') ?  true : false;
+        $search          = $this->input('search');
+        $query = DB::table('karyawan')->where('id_user', JWTAuth::user()->id);
+            
+        if($datatable):
+            return datatables()->of($query)->toJson();
+        else:
+            $data = $query->get();
+            if($data){
+                $res['api_status']  = 1;
+                $res['api_message'] = 'success';
+                $res['data']        = $data;
+            }else{
+                $res['api_status']  = 0;
+                $res['api_message'] = 'Data Tidak ditemukan';
+            }
+            return $this->api_output($res);
+        endif;
+    }
+
+    public function postKaryawanHapus(){
+        $id = $this->input('id', 'required');
+
+        #CEK VALID
+        if($this->validator()){
+            return $this->validator(true);
+        }
+
+        #Start Transaksi
+        DB::beginTransaction();
+        try{
+
+            DB::table('karyawan')->where('id_user', JWTAuth::user()->id)->where('id', $id)->delete();
+            #BERHASIL
+            $res['api_status']  = 1;
+            $res['api_message'] = 'success';
+            DB::commit();
+        }catch (\Illuminate\Database\QueryException $e) {
+            #GAGAL 1
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E01)';
+            $res['e']           = $e;
+        }catch (PDOException $e) {
+            #GAGAL 2
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E02)';
+            $res['e']           = $e;
+        }catch(Exception $e){
+            #GAGAL 3
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E03)';
+            $res['e']           = $e;
+        }
+        return $this->api_output($res);
+    }
+
+    public function postKaryawanPost(){
+        $id            = $this->input('id');
+        $nama          = $this->input('nama', 'required');
+        $jenis_kelamin = $this->input('jenis_kelamin', 'required');
+        $tanggal_lahir = $this->input('tanggal_lahir', 'required');
+        $jenis         = $this->input('jenis', 'required');
+
+        #CEK VALID
+        if($this->validator()){
+            return $this->validator(true);
+        }
+
+        $exist = DB::table('karyawan')
+            ->where('nama', $nama)
+            ->where('id_user', JWTAuth::user()->id)
+            ->where('tanggal_lahir', $tanggal_lahir);
+        if($id)
+        $exist->where('id', '<>', $id);
+
+        $exist = $exist->count();
+
+        if($exist > 0){
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Nama dan Tanggal Lahir terdapat duplikasi data';
+            return $this->api_output($res);
+        }
+
+        #Start Transaksi
+        DB::beginTransaction();
+        try{
+
+        $save['nama']          = $nama;
+        $save['id_user'] = JWTAuth::user()->id;
+        $save['jenis_kelamin'] = $jenis_kelamin;
+        $save['tanggal_lahir'] = $tanggal_lahir;
+        $save['jenis']         = $jenis;
+        $save['created_date']  = date('Y-m-d H:i:s');
+
+        if($id)
+            DB::table('karyawan')->where('id',$id)->update($save);
+        else
+            DB::table('karyawan')->insert($save);
+        
+        
+        #BERHASIL
+        $res['api_status']  = 1;
+        $res['api_message'] = 'success';
+        DB::commit();
+        }catch (\Illuminate\Database\QueryException $e) {
+            #GAGAL 1
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E01)';
+            $res['e']           = $e;
+        }catch (PDOException $e) {
+            #GAGAL 2
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E02)';
+            $res['e']           = $e;
+        }catch(Exception $e){
+            #GAGAL 3
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E03)';
+            $res['e']           = $e;
+        }
+        return $this->api_output($res);
+    }
+
+    public function getKaryawanDetil(){
+        $id = $this->input('id','required');
+        $data = DB::table('karyawan')->where('id', $id)->where('id_user', JWTAuth::user()->id)->first();
+
+        $res['api_status']  = 1;
+        $res['api_message'] = 'success';
+        $res['data']        = $data;
+        return $this->api_output($res);
+    }
+    ##DONE
 }
