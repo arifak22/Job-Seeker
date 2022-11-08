@@ -387,6 +387,16 @@ class PerusahaanController extends MiddleController
         $jenis_kelamin = $this->input('jenis_kelamin', 'required');
         $tanggal_lahir = $this->input('tanggal_lahir', 'required');
         $jenis         = $this->input('jenis', 'required');
+        $jenis_jabatan = $this->input('jenis_jabatan', 'required');
+        $id_pendidikan = $this->input('id_pendidikan', 'required');
+
+        $asal_daerah             = $this->input('asal_daerah', 'required');
+        $jenis_pelatihan         = $this->input('jenis_pelatihan', 'required');
+        $jenis_sertifikat              = $this->input('jenis_sertifikat', 'required');
+        $sertifikat              = $this->input('sertifikat', 'required');
+        $no_sertifikat           = $this->input('no_sertifikat', 'required');
+        $tgl_terbit_sertifikat   = $this->input('tgl_terbit_sertifikat', 'required');
+        $tgl_experied_sertifikat = $this->input('tgl_experied_sertifikat', 'required');
 
         #CEK VALID
         if($this->validator()){
@@ -412,12 +422,21 @@ class PerusahaanController extends MiddleController
         DB::beginTransaction();
         try{
 
-        $save['nama']          = $nama;
-        $save['id_user'] = JWTAuth::user()->id;
-        $save['jenis_kelamin'] = $jenis_kelamin;
-        $save['tanggal_lahir'] = $tanggal_lahir;
-        $save['jenis']         = $jenis;
-        $save['created_date']  = date('Y-m-d H:i:s');
+        $save['nama']                    = $nama;
+        $save['id_user']                 = JWTAuth::user()->id;
+        $save['jenis_kelamin']           = $jenis_kelamin;
+        $save['tanggal_lahir']           = $tanggal_lahir;
+        $save['jenis']                   = $jenis;
+        $save['created_date']            = date('Y-m-d H:i:s');
+        $save['jenis_jabatan']           = $jenis_jabatan;
+        $save['asal_daerah']             = $asal_daerah;
+        $save['jenis_pelatihan']         = $jenis_pelatihan;
+        $save['sertifikat']              = $sertifikat;
+        $save['no_sertifikat']           = $no_sertifikat;
+        $save['tgl_terbit_sertifikat']   = $tgl_terbit_sertifikat;
+        $save['tgl_experied_sertifikat'] = $tgl_experied_sertifikat;
+        $save['jenis_sertifikat']        = $jenis_sertifikat;
+        $save['id_pendidikan']           = $id_pendidikan;
 
         if($id)
             DB::table('karyawan')->where('id',$id)->update($save);

@@ -176,6 +176,8 @@ class PerusahaanController extends MiddleController
 
     public function getKaryawan(){
         $data['title'] = 'Karyawan';
+        $pendidikan = DB::table('pendidikan')->get();
+        $data['pendidikan_option'] = Sideveloper::makeOption($pendidikan, 'id', 'nama');
         return Sideveloper::load('dashboard', 'perusahaan/karyawan', $data);
     }
 }

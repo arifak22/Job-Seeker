@@ -19,7 +19,16 @@
                     {!!Sideveloper::formInput('Nama','text','nama')!!}
                     {!!Sideveloper::formSelect('Jenis Kelamin', array(array('value'=>'Laki-laki', 'name'=>'Laki-laki'), array('value'=>'Perempuan', 'name'=> 'Perempuan')), 'jenis_kelamin')!!}
                     {!!Sideveloper::formInput('Tanggal Lahir','text','tanggal_lahir', null, 'readonly')!!}
+                    {!!Sideveloper::formSelect('Pendidikan Terakhir', $pendidikan_option, 'id_pendidikan')!!}
                     {!!Sideveloper::formSelect('Jenis Tenaga Kerja', array(array('value'=>'Lokal', 'name'=>'Lokal'), array('value'=>'Asing', 'name'=> 'Asing')), 'jenis')!!}
+                    {!!Sideveloper::formInput('Jenis Jabatan','text','jenis_jabatan')!!}
+                    {!!Sideveloper::formInput('Asal Daerah','text','asal_daerah')!!}
+                    {!!Sideveloper::formInput('Jenis Pelatihan','text','jenis_pelatihan')!!}
+                    {!!Sideveloper::formInput('Jenis Sertifikat','text','jenis_sertifikat')!!}
+                    {!!Sideveloper::formInput('Sertifikat','text','sertifikat')!!}
+                    {!!Sideveloper::formInput('No Sertifikat','text','no_sertifikat')!!}
+                    {!!Sideveloper::formInput('Tanggal Terbit Sertifikat','text','tgl_terbit_sertifikat', null, 'readonly')!!}
+                    {!!Sideveloper::formInput('Tanggal Experied Sertifikat','text','tgl_experied_sertifikat', null, 'readonly')!!}
                     <div class="form-group col-lg-6 col-md-12">
                         <button class="theme-btn btn-style-one" type="submit" id="submit">Tambah</button>
                     </div>
@@ -89,7 +98,7 @@
 
   <script>
     jQuery.datetimepicker.setLocale('id');
-    $('#tanggal_lahir').datetimepicker(
+    $('#tanggal_lahir, #tgl_terbit_sertifikat, #tgl_experied_sertifikat').datetimepicker(
         {
             timepicker:false,
             format:'Y-m-d'
@@ -208,6 +217,15 @@
             $("#jenis_kelamin").val(res.data.jenis_kelamin);
             $("#tanggal_lahir").val(res.data.tanggal_lahir);
             $("#jenis").val(res.data.jenis);
+            $("#jenis_jabatan").val(res.data.jenis_jabatan);
+            $("#id_pendidikan").val(res.data.id_pendidikan);
+            $("#asal_daerah").val(res.data.asal_daerah);
+            $("#jenis_pelatihan").val(res.data.jenis_pelatihan);
+            $("#jenis_sertifikat").val(res.data.jenis_sertifikat);
+            $("#sertifikat").val(res.data.sertifikat);
+            $("#no_sertifikat").val(res.data.no_sertifikat);
+            $("#tgl_terbit_sertifikat").val(res.data.tgl_terbit_sertifikat);
+            $("#tgl_experied_sertifikat").val(res.data.tgl_experied_sertifikat);
         })
         .fail(function(err) {
             alert("error");
@@ -235,6 +253,36 @@
                     required : true,
                 },
                 jenis: {
+                    required : true,
+                },
+                jenis_jabatan: {
+                    required : true,
+                    maxlength: 200,
+                },
+                asal_daerah: {
+                    required : true,
+                    maxlength: 200,
+                },
+                jenis_pelatihan: {
+                    required : true,
+                    maxlength: 200,
+                },
+                jenis_sertifikat: {
+                    required : true,
+                    maxlength: 200,
+                },
+                sertifikat: {
+                    required : true,
+                    maxlength: 200,
+                },
+                no_sertifikat: {
+                    required : true,
+                    maxlength: 200,
+                },
+                tgl_terbit_sertifikat: {
+                    required : true,
+                },
+                tgl_experied_sertifikat: {
                     required : true,
                 },
             }
