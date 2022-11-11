@@ -143,7 +143,7 @@
        var tag  = $("#id_kelurahan");
        var url  = "{{url('option')}}";
        var data = {
-           search: 'kelurahaan',
+           search: 'kelurahan',
            id    : $("#id_kecamatan").val(),
            all : 'true',
        };
