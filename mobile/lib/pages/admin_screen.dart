@@ -1,21 +1,32 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:mobile/helpers/bottom_bar.dart';
 import 'package:mobile/helpers/color.dart';
 import 'dart:io' show Platform;
 import 'package:mobile/helpers/services.dart';
 import 'package:mobile/pages/home/main_screen.dart' as home;
-import 'package:mobile/pages/auth/login_screen.dart' as auth;
+import 'package:mobile/pages/profile_screen.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class MainScreen extends StatefulWidget {
+import 'package:mobile/pages/admin/main_screen.dart' as admin;
+import 'package:mobile/pages/pencarikerja/main_screen.dart' as pencarikerja;
+import 'package:mobile/pages/perusahaan/main_screen.dart' as perusahaan;
+
+
+import 'package:mobile/pages/admin/verifikasi_kartu.dart';
+
+
+class AdminScreen extends StatefulWidget {
+  dynamic id_privilege;
+
+  AdminScreen({required this.id_privilege});
+
   @override
-  _MainScreenState createState() => _MainScreenState();
+  _AdminScreenState createState() => _AdminScreenState(id_privilege);
 }
 
-class _MainScreenState extends State<MainScreen> {
+class _AdminScreenState extends State<AdminScreen> {
+  _AdminScreenState(dynamic id_privilege);
   late PageController _pageController;
 
 
@@ -30,14 +41,13 @@ class _MainScreenState extends State<MainScreen> {
     // Use either of them. 
     Future(_showDialog);
     _pageController = PageController();
-    checkIsLoggedIn();
+    checkIsNotLoggedIn();
 
   }
-  void checkIsLoggedIn()async{
+  void checkIsNotLoggedIn()async{
     var preferences = await SharedPreferences.getInstance();
-    if (preferences.getString('token') != null) {
-      var user = json.decode((preferences.getString('user')!));
-      Navigator.pushNamedAndRemoveUntil(context, '/login/'+user['id_privilege'].toString(), (Route route)=>false);
+    if (preferences.getString('token') == null) {
+      Navigator.pushNamedAndRemoveUntil(context, '/', (Route route)=>false);
     }
   }
 
@@ -108,10 +118,12 @@ class _MainScreenState extends State<MainScreen> {
 
   int _currentIndex = 0;
 
-  final List<Widget> _children = [
-    home.MainScreen(),
-    auth.LoginScreen(),
+  final List<List<Widget>> _children = [
+    [home.MainScreen(),pencarikerja.MainScreen(),ProfileScreen()], //pencari kerja
+    [home.MainScreen(),perusahaan.MainScreen(),ProfileScreen()], //perusahaan
+    [VerifikasiKartu(),admin.MainScreen(),ProfileScreen()], //admin
   ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,7 +133,7 @@ class _MainScreenState extends State<MainScreen> {
           onPageChanged: (index) {
             setState(() => _currentIndex = index);
           },
-          children: _children,
+          children: _children[widget.id_privilege - 1],
         ),
       ),
       bottomNavigationBar: BottomNavyBar(
@@ -139,8 +151,13 @@ class _MainScreenState extends State<MainScreen> {
             activeColor: Color.fromARGB(255, 19, 49, 166),
           ),
           BottomNavyBarItem(
-              icon: Icon(LineAwesomeIcons.alternate_sign_in),
-              title: Text('Login'),
+              icon: Icon(LineAwesomeIcons.inbox),
+              title: Text('Dashboard'),
+              activeColor: Color.fromARGB(255, 19, 49, 166),
+          ),
+          BottomNavyBarItem(
+              icon: Icon(LineAwesomeIcons.user),
+              title: Text('Profil'),
               activeColor: Color.fromARGB(255, 19, 49, 166),
           ),
         ],

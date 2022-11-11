@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:mobile/helpers/color.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
 import 'package:form_field_validator/form_field_validator.dart';
+import 'package:mobile/helpers/icon_image_provider.dart';
+import 'package:mobile/helpers/services.dart';
 
 PreferredSizeWidget appBar(String text) {
   return AppBar(
@@ -64,6 +67,73 @@ const List<String> years = const <String>[
   '2027',
 ];
 
+Widget barInfo(title, value, image){
+  return Expanded(
+    flex: 1,
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(5)),
+        color: Colors.white,
+        // border: Border.all(color: Color.fromARGB(255, 220, 220, 220)),
+        
+      ),
+      margin: EdgeInsets.symmetric(horizontal: 5),
+      padding: EdgeInsets.all(10),
+      height: 85,
+      child: Container(
+        padding: EdgeInsets.all(10),
+        decoration: BoxDecoration(
+          // color: Colors.red,
+          image: DecorationImage(
+            alignment: Alignment.topLeft,
+            fit: BoxFit.none,
+            image: image,
+            opacity: 0.2,
+          ),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+            Text(value, style: TextStyle(fontSize: 20, fontWeight: FontWeight.w800),),
+            Text(title, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w800),),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+Widget barMenu(start, title, end, context, url){
+  return InkWell(
+    onTap: () {
+       Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => url),
+      );
+    },
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+      ),
+      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+             start,
+              Text('    '),
+              Text(title, style: TextStyle(color: Color.fromARGB(255,17,62,108), fontSize: 15),),
+            ],
+          ),
+         end
+        ]
+      ),
+    ),
+  );
+}
 String toNumberRupiah(value){
   return 'Rp. ${NumberFormat.decimalPattern('id_ID').format(value)}';
 }
@@ -88,7 +158,7 @@ class FormLoadingState extends State<FormLoading> {
   Widget build(BuildContext context) {
     return Container(
       margin: FormMargin,
-      child: new TextFormField(
+      child: TextFormField(
         decoration: InputDecoration(
           labelText: widget.label,
           contentPadding: EdgeInsets.all(5),
@@ -126,10 +196,11 @@ class FormTextState extends State<FormText> {
     }else{
       return Container(
         margin: FormMargin,
-        child: new TextFormField(
+        child: TextFormField(
           decoration: InputDecoration(
             labelText: widget.label,
             contentPadding: EdgeInsets.all(5),
+            // suffixIcon: Icon(MdiIcons.calendar)
           ),
           initialValue: widget.initialValue,
           enabled: !widget.disabled,
@@ -196,7 +267,7 @@ class _FormSelectState extends State<_FormSelect> {
 
   TextEditingController get _effectiveController => widget.valueController;
   TextEditingController textController = TextEditingController();
-
+ 
   @override
   void initState() {
     var initialName = '';
@@ -223,7 +294,7 @@ class _FormSelectState extends State<_FormSelect> {
   Widget build(BuildContext context) {
     return Container(
       margin: FormMargin,
-      child: new TextFormField(
+      child: TextFormField(
         decoration: InputDecoration(
           labelText: widget.label,
           contentPadding: EdgeInsets.all(5),
@@ -391,7 +462,7 @@ class FormDate2State extends State<FormDate2> {
   Widget build(BuildContext context) {
     return Container(
       margin: FormMargin,
-      child: new TextFormField(
+      child: TextFormField(
         decoration: InputDecoration(
           labelText: widget.label,
           contentPadding: EdgeInsets.all(5),

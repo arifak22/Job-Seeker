@@ -20,6 +20,10 @@ class Api {
 
 var apiList = [
   Api(apiID: 1, name: 'version', uri:'services/version'),
+  Api(apiID: 2, name: 'logout', uri:'auth/logout'),
+
+
+  Api(apiID: 3, name: 'option', uri:'option'),
 
 ];
 
@@ -33,10 +37,8 @@ appVersion(){
 }
 
 localServer(){
-  var local = 'http://192.168.1.116:8888/siapnari/api';
-  // var local = 'http://10.1.234.166:8080/ci/api';
-  // var local = 'http://10.70.242.6:8080/ci/api';
-  // var local = 'http://localhost:8080/ci/api';
+  // var local = 'http://192.168.1.116:8888/siapnari/api';
+  var local = 'http://10.1.234.166:8888/siapnari/api';
   return local;
 }
 
@@ -59,36 +61,25 @@ class Services {
   var uri;
   late String token;
 
-  Future postLogin(String username, String password, String deviceID, String fcm, String force) async {
-    String url = '${baseUrl}/login/cek_loginv4';
+  Future postLogin(String email, String password) async {
+    String url = '${baseUrl}/auth/login';
     print(url);
     try {
       res = await http.post(
         Uri.parse(url),
         body: {
-          'username': username,
+          'email'   : email,
           'password': password,
-          'device'  : deviceID,
-          'token'   : fcm,
-          'force'   : force,
           'version' : appVersion()
         },
       ).timeout(Duration(seconds: 10));
       response = json.decode(res.body);
-      print(response);
+      // print(response);
       if (res.statusCode == 200) {
         if (response['api_status'] == 1) {
           preferences = await SharedPreferences.getInstance();
-          preferences.setString('token', appVersion());
-          preferences.setString('id', response['data']["USER_LOGIN_ID"]);
-          preferences.setString('pegawai_id', response['data']["PEGAWAI_ID"]);
-          preferences.setString('name', response['data']["NAMA"]);
-          preferences.setString('user_group', response['data']["USER_GROUP_ID"]);
-          preferences.setString('position', json.encode(response['titik_absen']));
-          preferences.setString('zona_waktu', response['titik_absen'][0]["ZONA_WAKTU"]);
-          preferences.setString('temp', json.encode([]));
-          preferences.setString('fcm', fcm);
-          print(response['titik_absen']);
+          preferences.setString('token', response['jwt_token']);
+          preferences.setString('user', json.encode(response['user']));
           return response;
         } else {
           print(response['api_status']);
@@ -155,7 +146,11 @@ class Services {
    print(body);
     try {
       res = await http
-          .post(Uri.parse('${baseUrl}/$url'),body: body).timeout(Duration(milliseconds: 10000));
+          .post(Uri.parse('${baseUrl}/$url'),body: body, 
+            headers: {
+              "Authorization" : "Bearer " + token
+            }
+          ).timeout(Duration(milliseconds: 10000));
         //  print(' body : ${res.body}');
       if (res.statusCode == 200) {
         jsonData = json.decode(res.body);

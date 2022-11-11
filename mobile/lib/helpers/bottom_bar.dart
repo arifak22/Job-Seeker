@@ -170,6 +170,7 @@ class _ItemWidget extends StatelessWidget {
                         style: TextStyle(
                           color: item.activeColor,
                           fontWeight: FontWeight.bold,
+                          fontSize: 13,
                         ),
                         maxLines: 1,
                         textAlign: item.textAlign,
