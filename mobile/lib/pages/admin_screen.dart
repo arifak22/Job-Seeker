@@ -121,7 +121,7 @@ class _AdminScreenState extends State<AdminScreen> {
   final List<List<Widget>> _children = [
     [home.MainScreen(),pencarikerja.MainScreen(),ProfileScreen()], //pencari kerja
     [home.MainScreen(),perusahaan.MainScreen(),ProfileScreen()], //perusahaan
-    [VerifikasiKartu(),admin.MainScreen(),ProfileScreen()], //admin
+    [home.MainScreen(),admin.MainScreen(),ProfileScreen()], //admin
   ];
 
   @override
