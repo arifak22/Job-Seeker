@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
+import 'package:mobile/helpers/services.dart';
 import 'package:mobile/helpers/widget.dart';
+import 'package:mobile/pages/home/loker_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -8,7 +10,32 @@ class MainScreen extends StatefulWidget {
 }
 
 class _MainScreenState extends State<MainScreen> {
+  dynamic totalLoker = '-';
+  getTotalLoker() async{
+    if(!mounted) return;
+    return await Services().getApi('loker', 'tipe=home').then((value) {
+        if(value['api_status'] == 1){
+            return value['data'].toString();
+        }else{
+          return '-';
+        }
+      }
+    );
+  }
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    totalLoker = getTotalLoker();
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+    // getTotalLoker().dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,69 +68,20 @@ class _MainScreenState extends State<MainScreen> {
 
                     Text('Di SIAPNARI (Sistem Aplikasi Tenaga Kerja & Perindustrian)', 
                             style: TextStyle(color: Color.fromARGB(255,17,62,108), fontSize: 15, fontWeight: FontWeight.w600)),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white,
-                      ),
-                      padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(LineAwesomeIcons.search_location, color: Color.fromARGB(255,17,62,108),),
-                              Text('    '),
-                              Text('Lowongan Kerja', style: TextStyle(color: Color.fromARGB(255,17,62,108), fontSize: 15),),
-                            ],
-                          ),
-                          Text('20', style: TextStyle(color:  Color.fromARGB(255, 51,178,124), fontWeight: FontWeight.bold, fontSize: 15),)
-                        ]
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white,
-                      ),
-                      padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(LineAwesomeIcons.building, color: Color.fromARGB(255,17,62,108),),
-                              Text('    '),
-                              Text('Perusahaan', style: TextStyle(color: Color.fromARGB(255,17,62,108), fontSize: 15),),
-                            ],
-                          ),
-                          Text('4', style: TextStyle(color:  Color.fromARGB(255, 51,178,124), fontWeight: FontWeight.bold, fontSize: 15),)
-                        ]
-                      ),
-                    ),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(10)),
-                        color: Colors.white,
-                      ),
-                      padding: EdgeInsets.all(15),
-                      margin: EdgeInsets.symmetric(vertical: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              Icon(LineAwesomeIcons.users, color: Color.fromARGB(255,17,62,108),),
-                              Text('    '),
-                              Text('Pencari Kerja', style: TextStyle(color: Color.fromARGB(255,17,62,108), fontSize: 15),),
-                            ],
-                          ),
-                          Text('70', style: TextStyle(color:  Color.fromARGB(255, 51,178,124), fontWeight: FontWeight.bold, fontSize: 15),)
-                        ]
-                      ),
-                    ),
+                    FutureBuilder(future: totalLoker, builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      String title = snapshot.hasData ? snapshot.data.toString() : '-';
+                      return BarMenu(
+                        icon : LineAwesomeIcons.search_location,
+                        label: 'Lowongan Kerja',
+                        info : Text(title, style: TextStyle(color:  Color.fromARGB(255, 51,178,124), fontWeight: FontWeight.bold, fontSize: 15)),
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => LokerScreen()),
+                          );
+                        }
+                      );
+                    }),
                   ],
                 )
               )
