@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:mobile/helpers/services.dart';
 import 'package:mobile/helpers/color.dart';
 import 'package:mobile/pages/admin_screen.dart';
 
 import 'package:mobile/pages/main_screen.dart';
+import 'package:intl/intl.dart';
 
-void main() {
-  runApp(const MyApp());
+Future<void> main() async {
+   await initializeDateFormatting('id_ID', null).then((_) => runApp(MyApp()));
+
+  // runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -17,6 +21,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final GlobalKey<NavigatorState> navigatorKey = GlobalKey(debugLabel: "Main Navigator");
+    
     return MaterialApp(
       title                     : 'SIAPNARI',
       // debugShowMaterialGrid     : isDebug(),

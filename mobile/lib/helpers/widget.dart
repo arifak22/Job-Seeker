@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:mobile/helpers/color.dart';
@@ -8,6 +10,8 @@ import 'package:material_design_icons_flutter/material_design_icons_flutter.dart
 import 'package:form_field_validator/form_field_validator.dart';
 import 'package:mobile/helpers/icon_image_provider.dart';
 import 'package:mobile/helpers/services.dart';
+
+import 'package:html/parser.dart';
 
 PreferredSizeWidget appBar(String text) {
   return AppBar(
@@ -25,6 +29,16 @@ extension StringCasingExtension on String {
   String toTitleCase() => replaceAll(RegExp(' +'), ' ').split(' ').map((str) => str.toCapitalized()).join(' ');
 }
 
+String parseHtml(String htmlString) {
+  final document = parse(htmlString);
+  final String parsedString = parse(document.body!.text).documentElement!.text;
+
+  return parsedString;
+}
+toRupiah(number){
+  final NumberFormat usCurrency = NumberFormat('#,##0', 'id_ID');
+  return 'Rp. ${usCurrency.format(number)}';
+}
 const List<String> months = const <String>[
   'Januari',
   'Februari',
@@ -134,6 +148,257 @@ Widget barMenu(start, title, end, context, url){
     ),
   );
 }
+
+Widget menuList({required IconData icon, required String title, Widget? info, void Function()? onTap}){
+  return InkWell(
+    onTap: onTap,
+    child: Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(10)),
+        color: Colors.white,
+      ),
+      padding: EdgeInsets.all(15),
+      margin: EdgeInsets.symmetric(vertical: 5),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              Icon(icon, color: Color.fromARGB(255,17,62,108)),
+              Text('    '),
+              Text(title, style: TextStyle(color: Color.fromARGB(255,17,62,108), fontSize: 15),),
+            ],
+          ),
+         info?? Container()
+        ]
+      ),
+    ),
+  );
+}
+
+
+class TextInfo extends StatefulWidget {
+  final String label;
+  final Color? color;
+  const TextInfo({Key? key, required this.label, this.color = Colors.green}) : super(key: key);
+
+  @override
+  State<TextInfo> createState() => TextInfoState();
+}
+
+class TextInfoState extends State<TextInfo> {
+  // String label = widget.label ?? 'Tes'; 
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 15, vertical: 5),
+      // margin: EdgeInsets.symmetric(horizontal: 5),
+      decoration: BoxDecoration(
+        color: widget.color?.withOpacity(0.3),
+        borderRadius: BorderRadius.all(Radius.circular(25))
+      ),
+      child: Text(widget.label, style: TextStyle(color: widget.color),),
+    );
+  }
+}
+
+class BarMenu extends StatefulWidget {
+  final IconData icon;
+  final String label;
+  final Widget? info;
+  final void Function()? onTap;
+  BarMenu({Key? key, required this.icon, required this.label, this.info, this.onTap}) : super(key: key);
+
+  @override
+  State<BarMenu> createState() => BarMenuState();
+}
+
+class BarMenuState extends State<BarMenu> {
+  // String label = widget.label ?? 'Tes'; 
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: widget.onTap,
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.all(Radius.circular(10)),
+          color: Colors.white,
+        ),
+        padding: EdgeInsets.all(15),
+        margin: EdgeInsets.symmetric(vertical: 5),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                Icon(widget.icon, color: Color.fromARGB(255,17,62,108)),
+                Text('    '),
+                Text(widget.label, style: TextStyle(color: Color.fromARGB(255,17,62,108), fontSize: 15),),
+              ],
+            ),
+            widget.info ?? Container()
+          ]
+        ),
+      ),
+    );
+  }
+}
+
+class Content extends StatefulWidget {
+  final String label;
+  final Widget? child;
+  Content({Key? key, required this.label, this.child}) : super(key: key);
+
+  @override
+  State<Content> createState() => ContentState();
+}
+
+class ContentState extends State<Content> {
+  // String label = widget.label ?? 'Tes'; 
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body:Container(
+          width: double.infinity,
+          height: double.infinity,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+                end: Alignment.topLeft,
+                colors: <Color>[
+                Color.fromARGB(255,12,62,148),
+                Color.fromARGB(255,38,123,204),
+              ]
+            )
+          ),
+          // color: Color.fromARGB(255,39,82,159),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(top: 50, left: 15, right: 15),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    InkWell(child: Icon(LineAwesomeIcons.angle_left, color: Colors.white, size: 22), onTap: (){Navigator.pop(context);},),
+                    Text(widget.label, style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Colors.white),),
+                    Icon(LineAwesomeIcons.info, color: Color.fromARGB(0, 1, 1, 1))
+                  ],
+                )
+              ),
+              Expanded(
+                flex: 1,
+                child:Container(
+                  width: double.infinity,
+                  // height: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+                      // color: Color.fromARGB(255, 243, 240, 240)
+                      color: Color.fromARGB(255, 240,243,244),
+                  ),
+                  margin: EdgeInsets.only(top: 20),
+                  // padding:  EdgeInsets.all(30),
+                  child: widget.child
+                )
+              )
+            ]
+          )
+        )
+    );
+  }
+}
+
+class Filter extends StatefulWidget {
+  final String label;
+  final Widget input;
+  final void Function()? onPressed;
+  final void Function()? onState;
+  Filter({Key? key, required this.label, required this.input, this.onPressed, this.onState}) : super(key: key);
+
+  @override
+  State<Filter> createState() => FilterState();
+}
+
+class FilterState extends State<Filter> {
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: (){
+        showModalBottomSheet<void>(
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(35.0),
+              topRight: Radius.circular(35.0),
+            ),
+          ),
+          context: context,
+          builder: (BuildContext context) {
+              return Container(
+                decoration: BoxDecoration(
+                  
+                  color: Colors.white,
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(35), topRight: Radius.circular(35)),
+                ),
+                padding: EdgeInsets.only(bottom: 40, left: 20, right: 20),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(100, 20, 100, 20),
+                      child: Container(
+                        height: 8,
+                        width: 130,
+                        decoration: BoxDecoration(
+                          color: Color.fromARGB(255, 196, 195, 195),
+                          borderRadius: BorderRadius.all(Radius.circular(8))
+                        ),
+                      ),
+                    ),
+                    widget.input,
+                    ElevatedButton(
+                      style: ButtonStyle(backgroundColor: MaterialStateProperty.all(Color.fromARGB(255,38,123,204))),
+                      onPressed: widget.onPressed,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text("Filter ", style: TextStyle(fontSize: 18,),),
+                          Icon(LineAwesomeIcons.search),
+                        ],
+                      ),
+                    )
+                  ],
+                )
+              );
+          },
+        );
+      },
+      child: Container(
+        width: double.infinity,
+        height: 60,
+        // height: double.infinity,
+        decoration: BoxDecoration(
+            borderRadius: BorderRadius.only(topLeft: Radius.circular(20), topRight: Radius.circular(20)),
+            color: Color.fromARGB(255, 244,247,249),
+            border: Border.all(color: Color.fromARGB(255, 207, 210, 213), width: 0.5)
+        ),
+        padding: EdgeInsets.all(15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(LineAwesomeIcons.horizontal_sliders, color: Color.fromARGB(255, 60,65,77)),
+            Text(widget.label, style: TextStyle(color:  Color.fromARGB(255, 60,65,77), fontSize: 20, fontWeight: FontWeight.w700),),
+            Icon(LineAwesomeIcons.search, color: Color.fromARGB(0, 60,65,77)),
+          ]
+        ),
+      ),
+    );
+  }
+}
+
+
+
 String toNumberRupiah(value){
   return 'Rp. ${NumberFormat.decimalPattern('id_ID').format(value)}';
 }
@@ -236,6 +501,11 @@ class FormSelect extends StatefulWidget {
 
 class FormSelectState extends State<FormSelect> {
   @override
+  void initState() {
+    super.initState();
+    print('tess');
+  }
+  @override
   Widget build(BuildContext context) {
     return widget.option.length > 0 ? 
       _FormSelect(
@@ -277,8 +547,8 @@ class _FormSelectState extends State<_FormSelect> {
         initialName = widget.option[0]['name'];
         initialValue = widget.option[0]['value'];
       }else{
-        initialName = widget.option.where((e) => e['value'] == widget.valueController.text).toList()[0]['name'];
-        initialValue = widget.option.where((e) => e['value'] == widget.valueController.text).toList()[0]['value'];
+        initialName = widget.option.where((e) => e['value'].toString() == widget.valueController.text).toList()[0]['name'];
+        initialValue = widget.option.where((e) => e['value'].toString() == widget.valueController.text).toList()[0]['value'].toString();
       }
     }
 
@@ -287,6 +557,12 @@ class _FormSelectState extends State<_FormSelect> {
       _effectiveController.text = initialValue;
     });
     super.initState();
+  }
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // set your stuff here 
+    // print('tes');
   }
 
 
@@ -307,72 +583,78 @@ class _FormSelectState extends State<_FormSelect> {
           showDialog(context: context, builder: (_) =>Dialog(
             child: Container(
               // height: MediaQuery.of(context).size.height / 2,
+              // color: Colors.red,
               width : double.infinity,
-              child : SingleChildScrollView(
-                child: Column(
-                  children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        border: Border(
-                          bottom: BorderSide(color: MyColor('line'), width: 1)
+              child : Column(
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: MyColor('line'), width: 1)
+                      )
+                    ),
+                    padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(widget.label, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: HexColor('#1d608a'))),
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: Icon(Icons.close, color: Colors.grey.shade800, size: 16),
+                          style: ElevatedButton.styleFrom(
+                            minimumSize: Size(0, 0),
+                            shape: CircleBorder(),
+                            padding: EdgeInsets.all(5),
+                            primary: Colors.grey,
+                            onPrimary: Colors.black,
+                          ),
                         )
-                      ),
-                      padding: EdgeInsets.only(left: 15, right: 15, top: 5, bottom: 5),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(widget.label, style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: HexColor('#1d608a'))),
-                          ElevatedButton(
-                            onPressed: () {
-                              Navigator.pop(context);
+                      ],
+                    ),
+                  ),
+                  Expanded(
+                    child: SingleChildScrollView(
+                       physics: ScrollPhysics(),
+                      child: Container(
+                        // color: Colors.green,
+                        margin: EdgeInsets.all(10),
+                        child: ListView.builder(
+                          physics: NeverScrollableScrollPhysics(),
+                          itemCount: widget.option.length,
+                          // controller: _scrollController,
+                          shrinkWrap: true,
+                            itemBuilder: (context, i){
+                              return InkWell(
+                                onTap: (){
+                                  if(widget.refreshData != null){
+                                    widget.refreshData!(widget.option[i]['value']);
+                                  }
+                                  setState(() {
+                                    textController = TextEditingController(text: widget.option[i]['name']);
+                                  });
+                                  _effectiveController.text = widget.option[i]['value'].toString() ?? ''; 
+                                  Navigator.pop(context);
+                                },
+                                child: Container(
+                                  padding: EdgeInsets.all(15),
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    border: Border(
+                                      bottom: BorderSide(color: MyColor('bg'), width: 1)
+                                    ),
+                                    // color: Colors.white
+                                  ),
+                                  child: Text(widget.option[i]['name'] ?? ''),
+                                ),
+                              );
                             },
-                            child: Icon(Icons.close, color: Colors.grey.shade800, size: 16),
-                            style: ElevatedButton.styleFrom(
-                              minimumSize: Size(0, 0),
-                              shape: CircleBorder(),
-                              padding: EdgeInsets.all(5),
-                              primary: Colors.grey,
-                              onPrimary: Colors.black,
-                            ),
-                          )
-                        ],
+                        ),
                       ),
                     ),
-                    Container(
-                      margin: EdgeInsets.all(10),
-                      child: ListView.builder(
-                        itemCount: widget.option.length,
-                        // controller: _scrollController,
-                        shrinkWrap: true,
-                          itemBuilder: (context, i){
-                            return InkWell(
-                              onTap: (){
-                                if(widget.refreshData != null){
-                                  widget.refreshData!();
-                                }
-                                setState(() {
-                                  textController = TextEditingController(text: widget.option[i]['name']);
-                                });
-                                _effectiveController.text = widget.option[i]['value'] ?? ''; 
-                                Navigator.pop(context);
-                              },
-                              child: Container(
-                                padding: EdgeInsets.all(15),
-                                width: double.infinity,
-                                decoration: BoxDecoration(
-                                  border: Border(
-                                    bottom: BorderSide(color: MyColor('bg'), width: 1)
-                                  ),
-                                  color: Colors.white
-                                ),
-                                child: Text(widget.option[i]['name'] ?? ''),
-                              ),
-                            );
-                          },
-                      ),
-                    )
-                  ],
-                ),
+                  )
+                ],
               ),
             ),
           ));

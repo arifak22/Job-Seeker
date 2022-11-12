@@ -24,6 +24,11 @@ var apiList = [
 
 
   Api(apiID: 3, name: 'option', uri:'option'),
+  Api(apiID: 4, name: 'loker', uri:'menu/loker'),
+  Api(apiID: 5, name: 'loker-detil', uri:'menu/loker-detil'),
+
+  Api(apiID: 6, name: 'lamar', uri:'pencari-kerja/lamar'),
+
 
 ];
 
@@ -37,9 +42,13 @@ appVersion(){
 }
 
 localServer(){
-  // var local = 'http://192.168.1.116:8888/siapnari/api';
-  var local = 'http://10.1.234.166:8888/siapnari/api';
+  var local = 'http://192.168.1.116:8888/siapnari/api';
+  // var local = 'http://10.1.234.166:8888/siapnari/api';
   return local;
+}
+
+localStorage(data){
+  return "https://siapnari.disnakerprind.info/storage/app/${data}";
 }
 
   
@@ -142,7 +151,7 @@ class Services {
     // body['token'] = token;
     List<Api> apiData = apiList.where((element) => element.name == uri).toList();
     var url = apiData[0].uri;
-   // print('${baseUrl}/$url');
+   print('${baseUrl}/$url');
    print(body);
     try {
       res = await http
@@ -164,7 +173,7 @@ class Services {
         return jsonData;
       }
     } catch (e) {
-    //  print(e);
+     print(e);
       jsonData = {
         'api_status': 0,
         'api_message': '$e',
@@ -235,17 +244,16 @@ class Services {
 
   Future getApi(String uri, String parameters) async {
     preferences = await SharedPreferences.getInstance();
-    // token = preferences.getString('token')!;
     List<Api> apiData = apiList.where((element) => element.name == uri).toList();
     var url = apiData[0].uri;
     print(Uri.parse('${baseUrl}/$url?$parameters'));
     try {
       if (parameters == null) {
         res = await http
-            .get(Uri.parse('${baseUrl}/$url')).timeout(Duration(seconds:10));
+            .get(Uri.parse('${baseUrl}/$url?source=mobile')).timeout(Duration(seconds:10));
       } else {
         res = await http
-            .get(Uri.parse('${baseUrl}/$url?$parameters')).timeout(Duration(seconds:10));
+            .get(Uri.parse('${baseUrl}/$url?${parameters}&source=mobile')).timeout(Duration(seconds:10));
       }
       if (res.statusCode == 200) {
         jsonData = json.decode(res.body);
@@ -331,5 +339,14 @@ class Services {
     var result = preferences.getString(name) ?? null;
     // print(result);
     return result;
+  }
+  getUser(String name) async{
+    preferences = await SharedPreferences.getInstance();
+    var user = preferences.getString('user') ?? null;
+    if(user != null){
+      return json.decode(user)[name];
+    }
+    // print(result);
+    return user;
   }
 }
