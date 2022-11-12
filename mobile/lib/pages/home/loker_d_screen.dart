@@ -5,6 +5,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:mobile/helpers/content_bar.dart';
 import 'package:mobile/helpers/services.dart';
 import 'package:mobile/helpers/widget.dart';
+import 'package:mobile/pages/home/perusahaan_d_screen.dart';
 
 class LokerDScreen extends StatefulWidget {
   dynamic data;
@@ -111,7 +112,7 @@ class _LokerDScreenState extends State<LokerDScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     InkWell(child: Icon(LineAwesomeIcons.angle_left, color: Colors.white, size: 22), onTap: (){Navigator.pop(context);},),
-                    Text('Detil', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Colors.white),),
+                    Text('Detil Loker', style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500, color: Colors.white),),
                     Icon(LineAwesomeIcons.info, color: Color.fromARGB(0, 1, 1, 1))
                   ],
                 )
@@ -304,7 +305,10 @@ class _LokerDScreenState extends State<LokerDScreen> {
                                 Text(detil['bahasa'].map((e) => e['nama_choice']).toList().join(', ')),
                                 ElevatedButton(
                                   onPressed: (){
-
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(builder: (context) => PerusahaanDScreen(data: detil['profile']))
+                                      );
                                   }, 
                                   child: Row(
                                     mainAxisAlignment: MainAxisAlignment.center,

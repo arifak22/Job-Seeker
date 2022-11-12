@@ -3,6 +3,7 @@ import 'package:line_awesome_flutter/line_awesome_flutter.dart';
 import 'package:mobile/helpers/services.dart';
 import 'package:mobile/helpers/widget.dart';
 import 'package:mobile/pages/home/loker_screen.dart';
+import 'package:mobile/pages/home/perusahaan_screen.dart';
 
 class MainScreen extends StatefulWidget {
   @override
@@ -11,9 +12,21 @@ class MainScreen extends StatefulWidget {
 
 class _MainScreenState extends State<MainScreen> {
   dynamic totalLoker = '-';
+  dynamic totalPerusahaan = '-';
   getTotalLoker() async{
     if(!mounted) return;
     return await Services().getApi('loker', 'tipe=home').then((value) {
+        if(value['api_status'] == 1){
+            return value['data'].toString();
+        }else{
+          return '-';
+        }
+      }
+    );
+  }
+  getTotalPerusahaan() async{
+    if(!mounted) return;
+    return await Services().getApi('perusahaan', 'tipe=home').then((value) {
         if(value['api_status'] == 1){
             return value['data'].toString();
         }else{
@@ -28,6 +41,7 @@ class _MainScreenState extends State<MainScreen> {
     // TODO: implement initState
     super.initState();
     totalLoker = getTotalLoker();
+    totalPerusahaan = getTotalPerusahaan();
   }
 
   @override
@@ -78,6 +92,20 @@ class _MainScreenState extends State<MainScreen> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => LokerScreen()),
+                          );
+                        }
+                      );
+                    }),
+                    FutureBuilder(future: totalPerusahaan, builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+                      String title = snapshot.hasData ? snapshot.data.toString() : '-';
+                      return BarMenu(
+                        icon : LineAwesomeIcons.building,
+                        label: 'Perusahaan',
+                        info : Text(title, style: TextStyle(color:  Color.fromARGB(255, 51,178,124), fontWeight: FontWeight.bold, fontSize: 15)),
+                        onTap: (){
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PerusahaanScreen()),
                           );
                         }
                       );

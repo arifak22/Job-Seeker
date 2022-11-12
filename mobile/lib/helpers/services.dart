@@ -24,8 +24,13 @@ var apiList = [
 
 
   Api(apiID: 3, name: 'option', uri:'option'),
+
   Api(apiID: 4, name: 'loker', uri:'menu/loker'),
   Api(apiID: 5, name: 'loker-detil', uri:'menu/loker-detil'),
+
+  Api(apiID: 4, name: 'perusahaan', uri:'menu/perusahaan'),
+  Api(apiID: 4, name: 'perusahaan-detil', uri:'menu/perusahaan-detil'),
+
 
   Api(apiID: 6, name: 'lamar', uri:'pencari-kerja/lamar'),
 
