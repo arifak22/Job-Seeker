@@ -44,19 +44,27 @@
                             </tr>
                             <tr>
                                 <td style="vertical-align:top">
-                                    <b>Nomor KK : {{$data->no_kk}}</b>
-                                </td>
-                                <td>
-                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_kk)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_kk)}}"></a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td style="vertical-align:top">
                                     <b>Nomor Ijazah : {{$data->no_ijazah}}</b>
                                     <br>Tanggal : {{$data->tgl_ijazah}}
                                 </td>
                                 <td>
                                     <a target="_blank" href="{{Sideveloper::storageUrl($data->file_ijazah)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_ijazah)}}"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top">
+                                    <b>DOKUMEN CV</b>
+                                </td>
+                                <td>
+                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_cv)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_cv)}}"></a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="vertical-align:top">
+                                    <b>DOKUMEN Lain-lain</b>
+                                </td>
+                                <td>
+                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_lain)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_lain)}}"></a>
                                 </td>
                             </tr>
                             @if($data->verified_status == 'DONE')
@@ -78,7 +86,8 @@
                     {!!Sideveloper::formFile('Pas Foto', 'foto', "accept=\"image/*\"", "Maksimal 200kb, Upload Pas Foto 3x4. (Image: png / jpg)", $data->pas_foto)!!}
                     {!!Sideveloper::formFile('Ijazah', 'ijazah', "accept=\"image/*\"", "Maksimal 200kb, Upload Ijazah. (Image: png / jpg)", $data->file_ijazah)!!}
                     {!!Sideveloper::formFile('KTP', 'ktp', "accept=\"image/*\"", "Maksimal 200kb, Upload KTP. (Image: png / jpg)", $data->file_ktp)!!}
-                    {!!Sideveloper::formFile('Kartu Keluarga', 'kk', "accept=\"image/*\"", "Maksimal 200kb, Upload KK. (Image: png / jpg)", $data->file_kk)!!}
+                    {!!Sideveloper::formFile('CV', 'cv', "accept=\"image/*\"", "Maksimal 200kb, Upload CV. (Image: png / jpg)", $data->file_ktp)!!}
+                    {!!Sideveloper::formFile('Lampiran Lain-lain', 'lain', "accept=\"image/*\"", "Maksimal 200kb, Upload Lampiran lain-lain. (Image: png / jpg)", $data->file_kk)!!}
                     @if($data->verified_status=='DONE')
                     {!!Sideveloper::formFile('KARTU AK.1 (Kartu Kuning)', 'KARTU AK.1 (Kartu Kuning)', "accept=\"image/*\"", "Maksimal 200kb, Upload Kartu Kuning. (Image: png / jpg)", $data->file_kartu_kuning)!!}
                     @endif
@@ -91,12 +100,12 @@
                     </div>
                     <div class="col-lg-12 col-md-12">
                         {!!Sideveloper::formInput('NIK','text','nik', $data->nik)!!}
-                        {!!Sideveloper::formInput('Nomor KK','text','no_kk', $data->no_kk)!!}
+                        {{-- {!!Sideveloper::formInput('Nomor KK','text','no_kk', $data->no_kk)!!} --}}
                     </div>
                     <?php
                     $passStatus = ['DRAFT', 'KIRIM', 'TOLAK'];
                     ?>
-                    @if(in_array($data->verified_status,$passStatus))
+                    @if(in_array($data->verified_status,$passStatus)|| empty($data->verified_status))
                     {!!Sideveloper::formSelect('Ajukan KARTU AK.1 (Kartu Kuning)', array(array('value'=>'DRAFT', 'name'=>'Draft'), array('value'=>'KIRIM', 'name'=> 'Kirim Pengajuan')), 'verified_status', $data->verified_status)!!}
                     @endif
                     @if($data->verified_status != 'TOLAK')
@@ -127,7 +136,7 @@
                         <?php endif;?>
                     </ul>
                     <br>
-                    @if(in_array($data->verified_status,$passStatus))
+                    @if(in_array($data->verified_status,$passStatus) || empty($data->verified_status))
                     <div class="form-group col-lg-6 col-md-12">
                         <button class="theme-btn btn-style-one" type="submit" id="submit">Simpan</button>
                     </div>

@@ -273,7 +273,7 @@ class PencarikerjaController extends MiddleController
         $no_ijazah       = $this->input('no_ijazah', 'required|max:100');
         $tgl_ijazah      = $this->input('tgl_ijazah', 'required|date_format:Y-m-d');
         $nik             = $this->input('nik', 'required|max:100');
-        $no_kk           = $this->input('no_kk', 'required|max:100');
+        // $no_kk           = $this->input('no_kk', 'required|max:100');
         $verified_status = $this->input('verified_status', 'required|max:50');
 
         #CEK VALID
@@ -308,9 +308,13 @@ class PencarikerjaController extends MiddleController
         if(!$ktp['is_uploaded']){
             return $this->api_output($ktp['msg']);
         }
-        $kk = $this->uploadFile('kk', 'pencarikerja/'.$id_user, 'kk-'.Str::random(5), $config); #HAPUS, GANTI DATA LAIN-LAIN
-        if(!$kk['is_uploaded']){
-            return $this->api_output($kk['msg']);
+        $cv = $this->uploadFile('cv', 'pencarikerja/'.$id_user, 'cv-'.Str::random(5), $config); #HAPUS, GANTI DATA LAIN-LAIN
+        if(!$cv['is_uploaded']){
+            return $this->api_output($cv['msg']);
+        }
+        $lain = $this->uploadFile('lain', 'pencarikerja/'.$id_user, 'lain-'.Str::random(5), $config); #HAPUS, GANTI DATA LAIN-LAIN
+        if(!$lain['is_uploaded']){
+            return $this->api_output($lain['msg']);
         }
 
         #Start Transaksi
@@ -322,7 +326,7 @@ class PencarikerjaController extends MiddleController
             $save['no_ijazah']       = $no_ijazah;
             $save['tgl_ijazah']      = $tgl_ijazah;
             $save['nik']             = $nik;
-            $save['no_kk']           = $no_kk;
+            // $save['no_kk']           = $no_kk;
             $save['verified_status'] = $verified_status;
 
             #VARIABLE FILE
@@ -330,8 +334,10 @@ class PencarikerjaController extends MiddleController
             $save['file_ijazah'] = $ijazah['filename'];
             if($ktp['filename'])
             $save['file_ktp'] = $ktp['filename'];
-            if($kk['filename'])
-            $save['file_kk'] = $kk['filename'];
+            if($cv['filename'])
+            $save['file_cv'] = $cv['filename'];
+            if($lain['filename'])
+            $save['file_lain'] = $lain['filename'];
             if($foto['filename'])
             $save['pas_foto'] = $foto['filename'];
 
@@ -434,7 +440,7 @@ class PencarikerjaController extends MiddleController
             ->join('vloker', 'vloker.id','=','loker_pelamar.id_loker')
             ->select('loker_pelamar.id', 'judul', 'tanggal_melamar','kecamatan','kelurahan','id_loker')
             ->where('id_pelamar', JWTAuth::user()->id);
-            
+        // echo $query;
         if($datatable):
             return datatables()->of($query)->toJson();
         else:

@@ -50,19 +50,27 @@
                                             </tr>
                                             <tr>
                                                 <td style="vertical-align:top">
-                                                    <b>Nomor KK : {{$data->no_kk}}</b>
-                                                </td>
-                                                <td>
-                                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_kk)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_kk)}}"></a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td style="vertical-align:top">
                                                     <b>Nomor Ijazah : {{$data->no_ijazah}}</b>
                                                     <br>Tanggal : {{$data->tgl_ijazah}}
                                                 </td>
                                                 <td>
                                                     <a target="_blank" href="{{Sideveloper::storageUrl($data->file_ijazah)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_ijazah)}}"></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:top">
+                                                    <b>DOKUMEN CV</b>
+                                                </td>
+                                                <td>
+                                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_cv)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_cv)}}"></a>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td style="vertical-align:top">
+                                                    <b>DOKUMEN Lain-lain</b>
+                                                </td>
+                                                <td>
+                                                    <a target="_blank" href="{{Sideveloper::storageUrl($data->file_lain)}}"><img style="height: 120px;margin-right:10px;" src="{{Sideveloper::storageUrl($data->file_lain)}}"></a>
                                                 </td>
                                             </tr>
                                             @if($data->verified_status == 'DONE')
