@@ -106,5 +106,12 @@ class AdminController extends MiddleController
         $data['perusahaan'] = DB::table('users')->where('id_privilege', '2')->get();
         return Sideveloper::load('dashboard', 'perusahaan/lokerkelola', $data);
     }
+
+    public function getPelatihan(){
+        $data['title'] = 'Pelatihan';
+        $kecamatan = DB::table('districts')->where('regency_id', 2101)->get();
+        $data['kecamatan_option'] = Sideveloper::makeOption($kecamatan, 'id', 'name');
+        return Sideveloper::load('dashboard', 'admin/pelatihan', $data);
+    }
     
 }

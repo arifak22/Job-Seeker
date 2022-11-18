@@ -890,5 +890,133 @@ class AdminController extends MiddleController
         return $this->api_output($res);
     }
     ##DONE
+
+    #---------- PELATIHAN -----------#
+    public function getPelatihan(){
+        $datatable       = $this->input('draw') ?  true : false;
+        $search          = $this->input('search');
+        $query = DB::table('pelatihan');
+            
+        if($datatable):
+            return datatables()->of($query)->toJson();
+        else:
+            $data = $query->get();
+            if($data){
+                $res['api_status']  = 1;
+                $res['api_message'] = 'success';
+                $res['data']        = $data;
+            }else{
+                $res['api_status']  = 0;
+                $res['api_message'] = 'Data Tidak ditemukan';
+            }
+            return $this->api_output($res);
+        endif;
+    }
+
+    public function postPelatihanHapus(){
+        $id = $this->input('id', 'required');
+
+        #CEK VALID
+        if($this->validator()){
+            return $this->validator(true);
+        }
+
+        #Start Transaksi
+        DB::beginTransaction();
+        try{
+
+            DB::table('pelatihan')->where('id', $id)->delete();
+            #BERHASIL
+            $res['api_status']  = 1;
+            $res['api_message'] = 'success';
+            DB::commit();
+        }catch (\Illuminate\Database\QueryException $e) {
+            #GAGAL 1
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E01)';
+            $res['e']           = $e;
+        }catch (PDOException $e) {
+            #GAGAL 2
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E02)';
+            $res['e']           = $e;
+        }catch(Exception $e){
+            #GAGAL 3
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E03)';
+            $res['e']           = $e;
+        }
+        return $this->api_output($res);
+    }
+
+    public function postPelatihanPost(){
+        $id                = $this->input('id');
+        $judul             = $this->input('judul', 'required');
+        $jenis_pelatihan   = $this->input('jenis_pelatihan', 'required');
+        $sumber_dana       = $this->input('sumber_dana', 'required');
+        $tahun_anggaran    = $this->input('tahun_anggaran', 'required');
+        $id_kecamatan      = $this->input('id_kecamatan', 'required');
+        $tanggal_pelatihan = $this->input('tanggal_pelatihan', 'required');
+
+        #CEK VALID
+        if($this->validator()){
+            return $this->validator(true);
+        }
+        // if($)
+        #Start Transaksi
+        DB::beginTransaction();
+        try{
+
+        $save['judul']             = $judul;
+        $save['jenis_pelatihan']   = $jenis_pelatihan;
+        $save['sumber_dana']       = $sumber_dana;
+        $save['tahun_anggaran']    = $tahun_anggaran;
+        $save['id_kecamatan']      = $id_kecamatan;
+        $save['tanggal_pelatihan'] = $tanggal_pelatihan;
+        if($id)
+            DB::table('pelatihan')->where('id',$id)->update($save);
+        else
+            DB::table('pelatihan')->insert($save);
+        
+        
+        #BERHASIL
+        $res['api_status']  = 1;
+        $res['api_message'] = 'success';
+        DB::commit();
+        }catch (\Illuminate\Database\QueryException $e) {
+            #GAGAL 1
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E01)';
+            $res['e']           = $e;
+        }catch (PDOException $e) {
+            #GAGAL 2
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E02)';
+            $res['e']           = $e;
+        }catch(Exception $e){
+            #GAGAL 3
+            DB::rollback();
+            $res['api_status']  = 0;
+            $res['api_message'] = 'Aplikasi Mengalami Masalah (Code: E03)';
+            $res['e']           = $e;
+        }
+        return $this->api_output($res);
+    }
+
+    public function getPelatihanDetil(){
+        $id = $this->input('id','required');
+        $data = DB::table('pelatihan')->where('id', $id)->first();
+
+        $res['api_status']  = 1;
+        $res['api_message'] = 'success';
+        $res['data']        = $data;
+        return $this->api_output($res);
+    }
+    ##DONE
     
 }
