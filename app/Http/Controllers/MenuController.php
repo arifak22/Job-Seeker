@@ -91,16 +91,15 @@ class MenuController extends MiddleController
 
     public function getLokerDetil(){
         $id = $this->input('id');
-        $data['title']    = $this->title;
-        $data['data'] = DB::table('vloker')->where('id', $id)->first();
+        $data['title']     = $this->title;
+        $data['data']      = DB::table('vloker')->where('id', $id)->first();
         $data['deskripsi'] = DB::table('loker_deskripsi')->where('id_loker', $id)->get();
-        $data['pelamar'] = DB::table('loker_pelamar')->where('id_loker', $id)->pluck('id_pelamar')->toArray();
-        // print_r($data['pelamar']);die();
+        $data['pelamar']   = DB::table('loker_pelamar')->where('id_loker', $id)->pluck('id_pelamar')->toArray();
 
-        $data['keahlian']  = DB::table('vchoice_loker')->where('id_tipe',2)->where('id_loker', $id)->get();
-        $data['bahasa']  = DB::table('vchoice_loker')->where('id_tipe',1)->where('id_loker', $id)->get();
+        $data['keahlian'] = DB::table('vchoice_loker')->where('id_tipe',2)->where('id_loker', $id)->get();
+        $data['bahasa']   = DB::table('vchoice_loker')->where('id_tipe',1)->where('id_loker', $id)->get();
 
-        $data['profile']   =  DB::table('vprofil_perusahaan')
+        $data['profile'] = DB::table('vprofil_perusahaan')
             ->where('id_user', $data['data']->id_user)->first();
         return Sideveloper::load('template', 'menu/lokerdetil', $data);
     }

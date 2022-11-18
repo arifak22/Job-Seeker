@@ -102,17 +102,35 @@ class AuthController extends MiddleController
     public function postLogin(){
         $credentials = Request::only('email', 'password');
         if (Auth::attempt($credentials)) {
+            if(Auth::user()->status < 1){
+                Auth::logout();
+                $res['api_status']  = 0;
+                $res['api_message'] = 'User anda sudah dinonaktifkan';
+                return response()->json($res);
+            }
             // Authentication passed...
-            $res['api_status']  = 0;
-            $res['api_message'] = 'Token Berhasil di Generate';
+            $res['api_status']  = 1;
+            $res['api_message'] = 'Berhasil Login';
+            // Authentication passed...
             // $token = JWTAuth::attempt($credentials);
             $token = JWTAuth::customClaims(['device' => 'api'])->fromUser(Auth::user());
-            $res['jwt_token']   = $token;
+            $res['jwt_token']    = $token;
+            $res['user']         = Auth::user();
+            $res['id_privilege'] = Auth::user()->id_privilege;
         }else{
             $res['api_status']  = 0;
             $res['api_message'] = 'Username & Password tidak sesuai. Coba Lagi.';
             $res['jwt_token']   = null;
+            $res['user']        = null;
         }
         return response()->json($res);
+    }
+
+    public function postLogout(){
+        JWTAuth::parseToken()->invalidate( true );
+        $res['api_status']  = 1;
+        $res['api_message'] = 'Berhasil Logout';
+        return response()->json($res);
+
     }
 }

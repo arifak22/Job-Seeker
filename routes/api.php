@@ -29,4 +29,6 @@ Route::middleware(['jwt.verify'])->group(function () {
 
 Route::middleware(['jwt.dynamic.verify'])->group(function () {
     Sideveloper::routeController('/option','Api\OptionController');
+    Sideveloper::routeController('/services','Api\ServicesController');
+    Sideveloper::routeController('/menu','Api\MenuController');
 });

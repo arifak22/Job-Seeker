@@ -166,7 +166,7 @@ class MiddleController extends Controller
 
     public function getOption($search, $all = false, $id = null, $auth = null){
         switch ($search) {
-            case 'kelurahaan':
+            case 'kelurahan':
                 $pk    = 'id';
                 $fk    = 'district_id';
                 $field = 'name';
