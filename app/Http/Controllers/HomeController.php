@@ -35,6 +35,7 @@ class HomeController extends MiddleController
 
     public function getIndex(){
         $data['title']    = $this->title;
+        $data['pelatihan'] = DB::table('vpelatihan')->get();
         return Sideveloper::load('template', 'home/index', $data);
     }
 }
