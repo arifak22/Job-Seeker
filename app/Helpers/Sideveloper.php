@@ -397,7 +397,7 @@
 			$res = [];
 			if($all && count($data) > 1){
 				$res[0]['value'] = '';
-				$res[0]['name'] = '--- Pilih Semua ---';
+				$res[0]['name'] = '- Semua -';
 				$all = true;
 			}else{
 				$all = false;
