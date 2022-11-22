@@ -38,7 +38,8 @@
 
         <div class="image-column col-lg-5 col-md-12">
           <div class="image-box">
-            <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img src="{{url('assets/images/resource/banner-img-3.png')}}" alt=""></figure>
+            <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img style="max-width: 800px; float: right;" src="{{url('assets/master/images/images-bg1.jpeg')}}" alt=""></figure>
+            {{-- <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img src="{{url('assets/images/resource/banner-img-3.png')}}" alt=""></figure> --}}
           </div>
         </div>
       </div>
@@ -103,7 +104,8 @@
 
           <!-- Image Column -->
           <div class="image-column -no-margin col-lg-6 col-md-12 col-sm-12 order-1 order-lg-2 wow fadeInRight">
-            <figure class="image-box"><img src="{{url('assets/images/index-12/images/1.png')}}" alt=""></figure>
+              <figure class="image-box"><img src="{{url('assets/master/images/images-bg2.jpeg')}}" alt=""></figure>
+              {{-- <figure class="image-box"><img src="{{url('assets/images/index-12/images/1.png')}}" alt=""></figure> --}}
           </div>
         </div>
         <div class="row grid-base justify-content-between align-items-center">
@@ -246,6 +248,20 @@
           </div>
 
         </div>
+        <br>
+        <div class="row">
+          <div class="col-md-6">
+            <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img style="width: 100%" src="{{url('assets/master/images/images-bg3.jpeg')}}" alt=""></figure>
+            <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img style="width: 100%" src="{{url('assets/master/images/images-bg5.jpeg')}}" alt=""></figure>
+            <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img style="width: 100%" src="{{url('assets/master/images/images-bg6.jpeg')}}" alt=""></figure>
+
+          </div>
+          <div class="col-md-6">
+            <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img style="width: 100%" src="{{url('assets/master/images/images-bg7.jpeg')}}" alt=""></figure>
+            <figure class="main-image wow fadeInRight" data-wow-delay="1500ms"><img style="width: 100%" src="{{url('assets/master/images/images-bg4.jpeg')}}" alt=""></figure>
+          </div>
+        </div>
+
       </div>
     </section>
   </div>
